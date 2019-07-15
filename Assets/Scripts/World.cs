@@ -6,10 +6,19 @@ using UnityEngine.U2D;
 
 public class World : MonoBehaviour
 {
+    public static World Instance;
+
     public Material Material;
     public Voxel[] VoxelTypes;
 
     Chunk[,] chunks = new Chunk[VoxelData.WorldWidthInChunks, VoxelData.WorldWidthInChunks];
+
+    private void Awake()
+    {
+        if (Instance != null)
+            Debug.LogError("World: Multiple Worlds");
+        Instance = this;
+    }
 
     void Start()
     {

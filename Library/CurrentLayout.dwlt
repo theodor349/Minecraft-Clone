@@ -73,7 +73,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 272}
   m_MaxSize: {x: 14004, y: 10022}
   vertical: 0
-  controlID: 98
+  controlID: 80
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 472}
   m_MaxSize: {x: 14004, y: 14022}
   vertical: 1
-  controlID: 74
+  controlID: 56
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 344}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 51
+  controlID: 141
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -296,10 +296,10 @@ MonoBehaviour:
     y: 30
     width: 3440
     height: 1307
-  m_MinSize: {x: 911, y: 472}
-  m_MaxSize: {x: 22006, y: 14022}
+  m_MinSize: {x: 913, y: 472}
+  m_MaxSize: {x: 22008, y: 14022}
   vertical: 0
-  controlID: 171
+  controlID: 135
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -348,7 +348,7 @@ MonoBehaviour:
   - {fileID: 16}
   - {fileID: 15}
   m_Selected: 0
-  m_LastSelected: 2
+  m_LastSelected: 1
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -510,20 +510,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Materials
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\Windows\Google\Unity Projects\ECS NaN\My Minecraft
+  m_LastProjectPath: D:\Windows\Google\Unity Projects\ECS NaN\Minecraft Clone
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b22a0000
     m_LastClickedID: 10930
-    m_ExpandedIDs: 000000006a2a0000862a0000ee2a00000e2b00009c2b0000002c0000382c0000
+    m_ExpandedIDs: 00000000682a0000842a0000ec2a00000c2b00009a2b0000fe2b0000362c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -551,7 +550,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000006a2a0000862a0000ee2a00000e2b00009c2b0000002c0000382c0000
+    m_ExpandedIDs: ffffffff00000000682a0000842a0000ec2a00000c2b00009a2b0000fe2b0000362c0000122f0000262f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -724,9 +723,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 121.83977, y: 22.515223, z: 69.98053}
+    m_Target: {x: 10.408538, y: 6.2500305, z: 7.946818}
     speed: 2
-    m_Value: {x: 121.83977, y: 22.515223, z: 69.98053}
+    m_Value: {x: 10.408538, y: 6.2500305, z: 7.946818}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -755,13 +754,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.007569806, y: -0.8279626, z: 0.011178216, w: -0.5606294}
+    m_Target: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
     speed: 2
-    m_Value: {x: -0.008522129, y: -0.8228619, z: 0.012343897, w: -0.5680434}
+    m_Value: {x: 0.70710677, y: -0.00000093066143, z: 0.00000055597036, w: 0.7071068}
   m_Size:
-    m_Target: 114.23853
+    m_Target: 27.246077
     speed: 2
-    m_Value: 119.6215
+    m_Value: 28.529922
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -815,9 +814,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 72fbffffc82c0000
+      m_SelectedIDs: b4c1feff
+      m_LastClickedID: -81484
+      m_ExpandedIDs: e0d6feff20d9ffff84fbffffc82c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
