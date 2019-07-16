@@ -11,6 +11,7 @@ public class Chunk
     Vector3Int chunkCoord;
     MeshRenderer rendere;
     MeshFilter filter;
+    MeshCollider collider;
 
     World world;
 
@@ -39,6 +40,7 @@ public class Chunk
 
         rendere = obj.AddComponent<MeshRenderer>();
         filter = obj.AddComponent<MeshFilter>();
+        collider = obj.AddComponent<MeshCollider>();
 
         GenerateChunk();
         if (drawOnInit)
@@ -102,6 +104,7 @@ public class Chunk
         mesh.RecalculateNormals();
         filter.mesh = mesh;
         rendere.material = mat;
+        collider.sharedMesh = mesh;
     }
 
     private void ClearMesh()
