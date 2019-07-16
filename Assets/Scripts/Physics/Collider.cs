@@ -28,6 +28,7 @@ public class Collider : MonoBehaviour
             return world.IsVoxelSolid((transform.position + new Vector3(Width * 0.5f + distance, 0, 0)).Floor());
         else
             return world.IsVoxelSolid((transform.position + new Vector3(-Width * 0.5f - distance, 0, 0)).Floor());
+        
     }
 
     public bool CheckZ(float distance)
