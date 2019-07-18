@@ -127,5 +127,4 @@ public class Collider : MonoBehaviour
             Gizmos.DrawSphere(transform.position + point, 0.1f);
         }
     }
-
 }
