@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [Header("Look")]
     public float MouseSensativity = 1f;
     public Transform cam;
+    public float XRotation = 0f;
+    public float YRotation = 0f;
 
     private World world;
     private Collider col;
@@ -41,8 +43,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
-        transform.Rotate(Vector3.up, Input.GetAxisRaw("Mouse X") * MouseSensativity, Space.World);
-        cam.Rotate(Vector3.left, Input.GetAxisRaw("Mouse Y") * MouseSensativity, Space.Self);
+        XRotation += Input.GetAxisRaw("Mouse X") * MouseSensativity;
+        transform.rotation = Quaternion.Euler(0, XRotation, 0);
+
+        YRotation += Input.GetAxisRaw("Mouse Y") * MouseSensativity;
+        YRotation = Mathf.Clamp(YRotation, -90, 90);
+        cam.localRotation = Quaternion.Euler(-YRotation, 0, 0);
     }
 
     private void FixedUpdate()
@@ -55,19 +61,33 @@ public class PlayerController : MonoBehaviour
 
     private void HandleColliders()
     {
-        Vector3 distance = Vector3.Scale(velocity, transform.forward);
+        Vector3 v = velocity.RotateAroundY(transform.rotation.eulerAngles.y);
+        Debug.Log(velocity);
+        if(velocity.z > 0)
+        {
+            if (col.Forward(v))
+                velocity.z = 0;
+        }
+        else if (velocity.z < 0)
+        {
+            if (col.Backward(v))
+                velocity.z = 0;
+        }
+        Debug.Log(velocity);
 
-        velocity.x = col.CheckX(distance.x) ? 0 : velocity.x;
-        velocity.z = col.CheckZ(distance.z) ? 0 : velocity.z;
-        isGrounded = col.CheckY(velocity.y);
-        velocity.y = col.CheckY(velocity.y) ? 0 : velocity.y;
-            
+        isGrounded = col.Down(v.y);
+        if (velocity.y < 0)
+            velocity.y = col.Down(v.y) ? 0 : velocity.y;
+        else if (velocity.y > 0)
+            velocity.y = col.Up(v.y) ? 0 : velocity.y;
     }
 
     private void HandelInput()
     {
-        velocity.x = Input.GetAxisRaw("Horizontal") * MoveVelocity;
-        velocity.z = Input.GetAxisRaw("Vertical") * MoveVelocity;
+        Vector3 input = new Vector3();
+
+        input.x = Input.GetAxisRaw("Horizontal") * MoveVelocity;
+        input.z = Input.GetAxisRaw("Vertical") * MoveVelocity;
 
         if (jumpRequest)
         {
@@ -82,8 +102,9 @@ public class PlayerController : MonoBehaviour
                 yVelocity = -GravityForce;
         }
 
-        velocity.y = yVelocity;
+        input.y = yVelocity;
 
+        velocity = input;
         velocity *= Time.fixedDeltaTime;
     }
 
