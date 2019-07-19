@@ -11,6 +11,11 @@ public static class Extentions
         return new Vector3Int((int)v.x, (int)v.y, (int)v.z);
     }
 
+    public static Vector2Int Floor(this Vector2 v)
+    {
+        return new Vector2Int((int)v.x, (int)v.y);
+    }
+
     public static Vector3 RotateAroundY(this Vector3 v, float angle)
     {
         Vector3 result = new Vector3();

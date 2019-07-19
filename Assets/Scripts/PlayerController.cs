@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float MoveVelocity = 4.317f;
     public float SprintVelocity = 5.612f;
+    public float SneakVelocity = 1.295f;
     public float MaxFallVelocity = 78.4f;
     public float JumpForce = 10f;
     public float GravityForce = 13.888f;
@@ -16,16 +17,19 @@ public class PlayerController : MonoBehaviour
     [Header("Look")]
     public float MouseSensativity = 1f;
     public Transform cam;
-    public float XRotation = 0f;
-    public float YRotation = 0f;
+    public int Range = 7;
 
     private World world;
     private Collider col;
 
     private Vector3 velocity;
     private float yVelocity;
+    private float XRotation = 0f;
+    private float YRotation = 0f;
     private bool isGrounded;
     private bool jumpRequest;
+
+    private Vector3Int blockInFocus = new Vector3Int(-1, -1, -1);
 
     private void Start()
     {
@@ -43,6 +47,41 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
+        if(Input.GetMouseButtonDown(0)) 
+            SetBlockFocus();
+    }
+
+    private void SetBlockFocus()
+    {
+        blockInFocus = new Vector3Int(-1,-1,-1);
+
+        Vector3 dir = cam.forward;
+        List<float> ts = new List<float>();
+
+        float x = 1 + cam.position.x % 1;
+        float y = 1 + cam.position.y % 1;
+        float z = 1 + cam.position.z % 1;
+        for (int i = 0; i < Range; i++, x++, y++, z++)
+        {
+            ts.Add(x / dir.x);
+            ts.Add(y / dir.y);
+            ts.Add(z / dir.z);
+        }
+
+        ts.Sort();
+
+        int t = 0;
+        while (blockInFocus.x < 0 && t < ts.Count)
+        {
+            Vector3Int block = (dir * t + cam.position).Floor();
+            if (world.GetBlockTypeAt(block) != 0)
+                blockInFocus = block;
+            ++t;
+        }
+
+        Debug.Log(world.GetBlockTypeAt(blockInFocus) + " at " + blockInFocus + " length: " + (cam.position - blockInFocus).magnitude);
+        if ((cam.position - blockInFocus).magnitude > Range)
+            Debug.LogError("Range does not work");
     }
 
     private void HandleLook()
@@ -53,10 +92,6 @@ public class PlayerController : MonoBehaviour
         YRotation += Input.GetAxisRaw("Mouse Y") * MouseSensativity;
         YRotation = Mathf.Clamp(YRotation, -90, 90);
         cam.localRotation = Quaternion.Euler(-YRotation, 0, 0);
-    }
-
-    private void FixedUpdate()
-    {
     }
 
     private void HandleColliders()

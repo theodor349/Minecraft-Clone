@@ -144,32 +144,32 @@ public class Collider : MonoBehaviour
         float width = Width * 0.5f;
 
         // Forward - Backward
-        //for (int i = 0; i < points.Length; i++)
-        //{
-        //    if (i % 2 == 0)
-        //        Gizmos.color = Color.white;
-        //    else
-        //        Gizmos.color = Color.red;
+        for (int i = 0; i < points.Length; i++)
+        {
+            if (i % 2 == 0)
+                Gizmos.color = Color.white;
+            else
+                Gizmos.color = Color.red;
 
-        //    Vector3 point = points[i];
-        //    Gizmos.DrawSphere(transform.position + point, 0.1f);
-        //}
+            Vector3 point = points[i];
+            Gizmos.DrawSphere(transform.position + point, 0.1f);
+        }
 
-        // Left - Right
-        Gizmos.color = Color.white;
-        Gizmos.DrawSphere(transform.position + points[0], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[1], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[4], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[5], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[8], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[9], 0.1f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position + points[2], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[3], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[6], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[7], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[10], 0.1f);
-        Gizmos.DrawSphere(transform.position + points[11], 0.1f);
+        //// Left - Right
+        //Gizmos.color = Color.white;
+        //Gizmos.DrawSphere(transform.position + points[0], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[1], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[4], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[5], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[8], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[9], 0.1f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawSphere(transform.position + points[2], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[3], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[6], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[7], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[10], 0.1f);
+        //Gizmos.DrawSphere(transform.position + points[11], 0.1f);
 
     }
 }

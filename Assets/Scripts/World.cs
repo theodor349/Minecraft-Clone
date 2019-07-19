@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -49,9 +50,28 @@ public class World : MonoBehaviour
         return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % VoxelData.ChunkWidth, pos.y, pos.z % VoxelData.ChunkWidth));
     }
 
-    public byte GetBlockType(Vector3Int pos)
+    public byte GetBlockTypeAt(Vector3Int pos)
+    {
+        if (IsCoordOutsideWord(pos))
+            return 0;
+
+        Vector2Int chunk = new Vector2(pos.x / VoxelData.ChunkWidth, pos.z / VoxelData.ChunkWidth).Floor();
+        return chunks[chunk.x, chunk.y].GetBlockTypeAt((new Vector3(pos.x % VoxelData.ChunkWidth, pos.y, pos.z % VoxelData.ChunkWidth)).Floor());
+    }
+
+    public bool IsCoordOutsideWord(Vector3Int pos)
+    {
+        int worldWidth = VoxelData.WorldWidthInChunks * VoxelData.ChunkWidth;
+        return (pos.x < 0 || pos.x >= worldWidth || pos.y < 0 || pos.y >= VoxelData.ChunkHeight || pos.z < 0 || pos.z >= worldWidth);
+    }
+
+    #region World Generation
+    public byte WorldGenGetBlockType(Vector3Int pos)
     {
         int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
+        if (pos.x == 6)
+            return 1;
+
         if (pos.y == terrainHeight)
             return 3;
         else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
@@ -88,5 +108,5 @@ public class World : MonoBehaviour
         else
             return false;
     }
-
+    #endregion
 }

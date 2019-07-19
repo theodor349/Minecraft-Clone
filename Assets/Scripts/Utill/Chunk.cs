@@ -69,10 +69,15 @@ public class Chunk
             {
                 for (int z = 0; z < VoxelData.ChunkWidth; z++)
                 {
-                    voxels[x, y, z] = world.GetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
+                    voxels[x, y, z] = world.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
                 }
             }
         }
+    }
+
+    public byte GetBlockTypeAt(Vector3Int pos)
+    {
+        return voxels[pos.x, pos.y, pos.z];
     }
 
     #region Drawing

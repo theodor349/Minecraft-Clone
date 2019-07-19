@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{45D23AA3-C2ED-94D8-DD8E-8A9EC4E8EE5A}</ProjectGuid>
+    <ProjectGuid>{5511F3EB-019F-5DCF-74AD-00F82FF96274}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -53,45 +53,45 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Chunk.cs" />
      <Compile Include="Assets\Scripts\Physics\Collider.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Utill\Chunk.cs" />
      <Compile Include="Assets\Scripts\Utill\Extentions.cs" />
      <Compile Include="Assets\Scripts\Voxel.cs" />
      <Compile Include="Assets\Scripts\VoxelData.cs" />
      <Compile Include="Assets\Scripts\World.cs" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.0b9/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -271,13 +271,13 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.0b9/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Editor">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.StandardEvents">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
- <HintPath>D:/Windows/Google/Unity Projects/ECS NaN/Minecraft Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.0b9/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
