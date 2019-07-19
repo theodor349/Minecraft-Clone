@@ -4,7 +4,7 @@ public static class VoxelData
 {
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 64; // 256; // Cant draw the full chunk border
-    public static readonly int WorldWidthInChunks = 10;// int.MaxValue; // Is equal to 1714 times earth circumference 
+    public static readonly int WorldWidthInChunks = 1;// int.MaxValue; // Is equal to 1714 times earth circumference 
 
     public static readonly int TextureAtlasBlockWidth = 16;
     public static readonly float NormalizedTextureWidth = 0.0625f;

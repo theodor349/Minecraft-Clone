@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         world = World.Instance;
         col = GetComponent<Collider>();
     }
@@ -39,6 +40,9 @@ public class PlayerController : MonoBehaviour
             jumpRequest = true;
 
         HandleLook();
+        HandelInput();
+        HandleColliders();
+        transform.Translate(velocity);
     }
 
     private void HandleLook()
@@ -53,16 +57,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandelInput();
-        HandleColliders();
-
-        transform.Translate(velocity);
     }
 
     private void HandleColliders()
     {
         Vector3 v = velocity.RotateAroundY(transform.rotation.eulerAngles.y);
-        Debug.Log(velocity);
         if(velocity.z > 0)
         {
             if (col.Forward(v))
@@ -73,7 +72,17 @@ public class PlayerController : MonoBehaviour
             if (col.Backward(v))
                 velocity.z = 0;
         }
-        Debug.Log(velocity);
+
+        if (velocity.x > 0)
+        {
+            if (col.Right(v))
+                velocity.x = 0;
+        }
+        else if (velocity.x < 0)
+        {
+            if (col.Left(v))
+                velocity.x = 0;
+        }
 
         isGrounded = col.Down(v.y);
         if (velocity.y < 0)
@@ -86,8 +95,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 input = new Vector3();
 
-        input.x = Input.GetAxisRaw("Horizontal") * MoveVelocity;
-        input.z = Input.GetAxisRaw("Vertical") * MoveVelocity;
+        if(Input.GetAxisRaw("Sprint") > 0)
+        {
+            input.x = Input.GetAxisRaw("Horizontal") * SprintVelocity;
+            input.z = Input.GetAxisRaw("Vertical") * SprintVelocity;
+        }
+        else
+        {
+            input.x = Input.GetAxisRaw("Horizontal") * MoveVelocity;
+            input.z = Input.GetAxisRaw("Vertical") * MoveVelocity;
+        }
 
         if (jumpRequest)
         {
@@ -105,7 +122,7 @@ public class PlayerController : MonoBehaviour
         input.y = yVelocity;
 
         velocity = input;
-        velocity *= Time.fixedDeltaTime;
+        velocity *= Time.deltaTime;
     }
 
 }
