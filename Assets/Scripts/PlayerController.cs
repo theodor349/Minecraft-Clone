@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float MouseSensativity = 1f;
     public Transform cam;
     public int Range = 7;
+    public Vector3Int BlockInFocus = new Vector3Int(-1, -1, -1);
+    public GameObject PlacementBlock;
 
     private World world;
     private Collider col;
@@ -29,7 +31,6 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool jumpRequest;
 
-    private Vector3Int blockInFocus = new Vector3Int(-1, -1, -1);
 
     private void Start()
     {
@@ -47,41 +48,42 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
-        if(Input.GetMouseButtonDown(0)) 
-            SetBlockFocus();
+    }
+
+    private void FixedUpdate()
+    {
+        SetBlockFocus();
+        PlacementBlock.transform.position = BlockInFocus + new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     private void SetBlockFocus()
     {
-        blockInFocus = new Vector3Int(-1,-1,-1);
+        BlockInFocus = new Vector3Int(-1,-1,-1);
 
         Vector3 dir = cam.forward;
         List<float> ts = new List<float>();
 
-        float x = 1 + cam.position.x % 1;
-        float y = 1 + cam.position.y % 1;
-        float z = 1 + cam.position.z % 1;
-        for (int i = 0; i < Range; i++, x++, y++, z++)
+        float x = cam.position.x % 1;
+        float y = cam.position.y % 1;
+        float z = cam.position.z % 1;
+
+        for (float r = 0.5f; r < Range; r++)
         {
-            ts.Add(x / dir.x);
-            ts.Add(y / dir.y);
-            ts.Add(z / dir.z);
+            ts.Add((r - x) / x);
+            ts.Add((r - y) / y);
+            ts.Add((r - z) / z);
         }
 
         ts.Sort();
 
         int t = 0;
-        while (blockInFocus.x < 0 && t < ts.Count)
+        while (BlockInFocus.x < 0 && t < ts.Count && ts[t] < Range)
         {
-            Vector3Int block = (dir * t + cam.position).Floor();
+            Vector3Int block = (dir * ts[t] + cam.position).Floor();
             if (world.GetBlockTypeAt(block) != 0)
-                blockInFocus = block;
+                BlockInFocus = block;
             ++t;
         }
-
-        Debug.Log(world.GetBlockTypeAt(blockInFocus) + " at " + blockInFocus + " length: " + (cam.position - blockInFocus).magnitude);
-        if ((cam.position - blockInFocus).magnitude > Range)
-            Debug.LogError("Range does not work");
     }
 
     private void HandleLook()
