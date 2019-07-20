@@ -67,12 +67,30 @@ public class PlayerController : MonoBehaviour
         float y = cam.position.y % 1;
         float z = cam.position.z % 1;
 
-        for (float r = 0.5f; r < Range; r++)
-        {
-            ts.Add((r - x) / x);
-            ts.Add((r - y) / y);
-            ts.Add((r - z) / z);
-        }
+        if(dir.x != 0)
+            for (float r = 1; r < Range; r++)
+            {
+                if (dir.x > 0)
+                    ts.Add((r - x) / dir.x + 0.01f);
+                else
+                    ts.Add((-r - x + 1) / dir.x + 0.01f);
+            }
+        if(dir.y != 0)
+            for (float r = 1; r < Range; r++)
+            {
+                if (dir.y > 0)
+                    ts.Add((r - y) / dir.y + 0.01f);
+                else
+                    ts.Add((-r - y + 1) / dir.y + 0.01f);
+            }
+        if(dir.z != 0)
+            for (float r = 1; r < Range; r++)
+            {
+                if (dir.z > 0)
+                    ts.Add((r - z) / dir.z + 0.01f);
+                else
+                    ts.Add((-r - z + 1) / dir.z + 0.01f);
+            }
 
         ts.Sort();
 
