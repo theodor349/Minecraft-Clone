@@ -18,8 +18,11 @@ public class PlayerController : MonoBehaviour
     public float MouseSensativity = 1f;
     public Transform cam;
     public int Range = 7;
-    public Vector3Int BlockInFocus = new Vector3Int(-1, -1, -1);
-    public GameObject PlacementBlock;
+    public Vector3Int HighlightBlockPos = new Vector3Int(-1, -1, -1);
+    public Vector3Int PlacementBlockPos = new Vector3Int(-1, -1, -1);
+    public Vector3 LookAtPoint;
+    public Transform HighlightBlock;
+    public Transform PlacementBlock;
 
     private World world;
     private Collider col;
@@ -52,13 +55,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SetBlockFocus();
-        PlacementBlock.transform.position = BlockInFocus + new Vector3(0.5f, 0.5f, 0.5f);
+        SetHighlightBlockPos();
+        CalculatePlacementPos();
     }
 
-    private void SetBlockFocus()
+    private void SetHighlightBlockPos()
     {
-        BlockInFocus = new Vector3Int(-1,-1,-1);
+        HighlightBlockPos = new Vector3Int(-1,-1,-1);
 
         Vector3 dir = cam.forward;
         List<float> ts = new List<float>();
@@ -95,13 +98,62 @@ public class PlayerController : MonoBehaviour
         ts.Sort();
 
         int t = 0;
-        while (BlockInFocus.x < 0 && t < ts.Count && ts[t] < Range)
+        while (HighlightBlockPos.x < 0 && t < ts.Count && ts[t] < Range)
         {
-            Vector3Int block = (dir * ts[t] + cam.position).Floor();
+            LookAtPoint = (dir * ts[t] + cam.position);
+            Vector3Int block = LookAtPoint.Floor();
             if (world.GetBlockTypeAt(block) != 0)
-                BlockInFocus = block;
+            {
+                HighlightBlockPos = block;
+            }
             ++t;
         }
+
+        HighlightBlock.position = HighlightBlockPos + new Vector3(0.5f, 0.5f, 0.5f);
+    }
+
+    private void CalculatePlacementPos()
+    {
+        PlacementBlockPos = new Vector3Int(-1, -1, -1);
+
+        float x = LookAtPoint.x % 1;
+        float y = LookAtPoint.y % 1;
+        float z = LookAtPoint.z % 1;
+
+        float dx = DiffToNaturalNumber(x);
+        float dy = DiffToNaturalNumber(y);
+        float dz = DiffToNaturalNumber(z);
+
+        float min = Mathf.Min(new float[] { dx, dy, dz });
+        if (min == dx)
+        {
+            if (x > 0.5f)
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x + 1, HighlightBlockPos.y, HighlightBlockPos.z);
+            else
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x - 1, HighlightBlockPos.y, HighlightBlockPos.z);
+        }
+        else if (min == dy)
+        {
+            if (y > 0.5f)
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y + 1, HighlightBlockPos.z);
+            else
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y + 1, HighlightBlockPos.z);
+        }
+        else
+        {
+                if (z > 0.5f)
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y, HighlightBlockPos.z + 1);
+            else
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y, HighlightBlockPos.z - 1);
+        }
+
+        PlacementBlock.position = PlacementBlockPos + new Vector3(0.5f, 0.5f, 0.5f);
+    }
+
+    private float DiffToNaturalNumber(float x)
+    {
+        float a = 1 - x;
+        return Mathf.Min(a, x);
     }
 
     private void HandleLook()

@@ -17,15 +17,15 @@ public class InfoOverlay : MonoBehaviour
 
     private void SetBlockText()
     {
-        if (Player.BlockInFocus.x == -1)
+        if (Player.HighlightBlockPos.x == -1)
         {
             BlockTypeText.text = "BlockType:";
             BlockPosText.text = "BlockPos: ";
         }
         else
         {
-            BlockTypeText.text = "BlockType: " + World.VoxelTypes[World.GetBlockTypeAt(Player.BlockInFocus)].name;
-            BlockPosText.text = "Position: " + Player.BlockInFocus;
+            BlockTypeText.text = "BlockType: " + World.VoxelTypes[World.GetBlockTypeAt(Player.HighlightBlockPos)].name;
+            BlockPosText.text = "Position: " + Player.HighlightBlockPos;
         }
     }
 }
