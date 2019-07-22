@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     public Transform HighlightBlock;
     public Transform PlacementBlock;
 
+    [Header("State")]
+    public int SelectedItemSlot = 0;
+
     private World world;
     private Collider col;
 
@@ -51,17 +54,53 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
-
-        if (Input.GetMouseButtonDown(0))
-            world.EditBlock(HighlightBlockPos, 0);
-        else if (Input.GetMouseButtonDown(1))
-            world.EditBlock(PlacementBlockPos, 2);
     }
 
     private void FixedUpdate()
     {
         SetHighlightBlockPos();
         CalculatePlacementPos();
+    }
+
+    private float DiffToNaturalNumber(float x)
+    {
+        float a = 1 - x;
+        return Mathf.Min(a, x);
+    }
+
+    private void HandleLook()
+    {
+        XRotation += Input.GetAxisRaw("Mouse X") * MouseSensativity;
+        transform.rotation = Quaternion.Euler(0, XRotation, 0);
+
+        YRotation += Input.GetAxisRaw("Mouse Y") * MouseSensativity;
+        YRotation = Mathf.Clamp(YRotation, -90, 90);
+        cam.localRotation = Quaternion.Euler(-YRotation, 0, 0);
+    }
+
+    private void HandelInput()
+    {
+        InputMovement();
+
+        if (Input.GetMouseButtonDown(0))
+            world.EditBlock(HighlightBlockPos, 0);
+        else if (Input.GetMouseButtonDown(1))
+            world.EditBlock(PlacementBlockPos, (byte)(SelectedItemSlot + 1));
+
+        InputScroolWheel();        
+    }
+
+    private void InputScroolWheel()
+    {
+        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
+            SelectedItemSlot++;
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") > 0)
+            SelectedItemSlot--;
+
+        if (SelectedItemSlot < 0)
+            SelectedItemSlot = world.BlockTypes.Length - 2;
+        else if (SelectedItemSlot == world.BlockTypes.Length - 1)
+            SelectedItemSlot = 0;
     }
 
     private void SetHighlightBlockPos()
@@ -142,7 +181,7 @@ public class PlayerController : MonoBehaviour
             if (y > 0.5f)
                 PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y + 1, HighlightBlockPos.z);
             else
-                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y + 1, HighlightBlockPos.z);
+                PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y - 1, HighlightBlockPos.z);
         }
         else
         {
@@ -153,22 +192,6 @@ public class PlayerController : MonoBehaviour
         }
 
         PlacementBlock.position = PlacementBlockPos + new Vector3(0.5f, 0.5f, 0.5f);
-    }
-
-    private float DiffToNaturalNumber(float x)
-    {
-        float a = 1 - x;
-        return Mathf.Min(a, x);
-    }
-
-    private void HandleLook()
-    {
-        XRotation += Input.GetAxisRaw("Mouse X") * MouseSensativity;
-        transform.rotation = Quaternion.Euler(0, XRotation, 0);
-
-        YRotation += Input.GetAxisRaw("Mouse Y") * MouseSensativity;
-        YRotation = Mathf.Clamp(YRotation, -90, 90);
-        cam.localRotation = Quaternion.Euler(-YRotation, 0, 0);
     }
 
     private void HandleColliders()
@@ -203,11 +226,11 @@ public class PlayerController : MonoBehaviour
             velocity.y = col.Up(v.y) ? 0 : velocity.y;
     }
 
-    private void HandelInput()
+    private void InputMovement()
     {
         Vector3 input = new Vector3();
 
-        if(Input.GetAxisRaw("Sprint") > 0)
+        if (Input.GetAxisRaw("Sprint") > 0)
         {
             input.x = Input.GetAxisRaw("Horizontal") * SprintVelocity;
             input.z = Input.GetAxisRaw("Vertical") * SprintVelocity;

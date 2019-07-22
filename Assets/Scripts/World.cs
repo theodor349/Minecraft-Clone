@@ -10,7 +10,7 @@ public class World : MonoBehaviour
     public static World Instance;
 
     public Material Material;
-    public Block[] VoxelTypes;
+    public Block[] BlockTypes;
 
     Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
 
@@ -19,6 +19,8 @@ public class World : MonoBehaviour
         if (Instance != null)
             Debug.LogError("World: Multiple Worlds");
         Instance = this;
+
+        BlockData.Init();
     }
 
     void Start()
@@ -90,7 +92,6 @@ public class World : MonoBehaviour
             return;
 
         chunks[pos.x, pos.z].Update();
-        Debug.Log("Update");
     }
 
     public Vector3Int GetBlockPosInChunk(Vector3Int pos)
@@ -103,16 +104,18 @@ public class World : MonoBehaviour
     {
         int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
         if (pos.x == 6)
-            return 1;
+            return 2;
 
         if (pos.y == terrainHeight)
-            return 3;
+            return 4;
         else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
-            return 2;
+            return 3;
         else if (pos.y > terrainHeight)
             return 0;
-        else
+        else if (pos.y == 0)
             return 1;
+        else
+            return 2;
     }
 
     public static float Get2DPerline(Vector2 position, float offset, float scale)

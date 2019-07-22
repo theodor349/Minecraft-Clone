@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   Name: Stone
-  Icon: {fileID: 0}
+  Icon: {fileID: 317711084924465178, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
   IsTransparent: 0
-  Back: 1
-  Front: 1
-  Top: 1
-  Buttom: 1
-  Left: 1
-  Right: 1
+  Back: 0
+  Front: 0
+  Top: 0
+  Buttom: 0
+  Left: 0
+  Right: 0

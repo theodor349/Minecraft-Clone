@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15014b64a085f1648bf7191510ed74ac, type: 3}
+  m_Name: Bedrock
+  m_EditorClassIdentifier: 
+  Name: Bedrock
+  Icon: {fileID: 7196079105303995997, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
+  IsSolid: 1
+  IsTransparent: 0
+  Back: 9
+  Front: 9
+  Top: 9
+  Buttom: 9
+  Left: 9
+  Right: 9

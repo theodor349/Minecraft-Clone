@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\Physics\Collider.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\UI\InfoOverlay.cs" />
+     <Compile Include="Assets\Scripts\UI\ToolBelt.cs" />
      <Compile Include="Assets\Scripts\Utill\Chunk.cs" />
      <Compile Include="Assets\Scripts\Utill\Extentions.cs" />
      <Compile Include="Assets\Scripts\World.cs" />
@@ -93,6 +94,9 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.0b9/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

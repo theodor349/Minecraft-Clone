@@ -168,7 +168,7 @@ public class Chunk
 
             AddVerticies(pos, face);
             AddTriangles();
-            AddTexture(world.VoxelTypes[blocks[pos.x, pos.y, pos.z]].GetFaceTexture((Face)face));
+            AddTexture(world.BlockTypes[blocks[pos.x, pos.y, pos.z]].GetFaceTexture((Face)face));
 
             vertexIndex += 4;
         }

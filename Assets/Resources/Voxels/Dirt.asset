@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Dirt
   m_EditorClassIdentifier: 
   Name: Grass
-  Icon: {fileID: 0}
+  Icon: {fileID: -851620116459470651, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
   IsTransparent: 0
-  Back: 2
-  Front: 2
-  Top: 2
-  Buttom: 2
-  Left: 2
-  Right: 2
+  Back: 1
+  Front: 1
+  Top: 1
+  Buttom: 1
+  Left: 1
+  Right: 1
