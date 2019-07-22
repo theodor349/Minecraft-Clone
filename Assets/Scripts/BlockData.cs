@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class VoxelData
+public static class BlockData
 {
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 64; // 256; // Cant draw the full chunk border

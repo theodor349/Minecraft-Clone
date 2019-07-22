@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum Face { Back, Front, Top, Button, Left, Right };
 [CreateAssetMenu(fileName ="Voxels", menuName = "Minecraft/Voxels")]
-public class Voxel : ScriptableObject
+public class Block : ScriptableObject
 {
     public string Name;
     public Sprite Icon;

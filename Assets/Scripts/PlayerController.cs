@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
+
+        if (Input.GetMouseButtonDown(0))
+            world.EditBlock(HighlightBlockPos, 0);
+        else if (Input.GetMouseButtonDown(1))
+            world.EditBlock(PlacementBlockPos, 2);
     }
 
     private void FixedUpdate()

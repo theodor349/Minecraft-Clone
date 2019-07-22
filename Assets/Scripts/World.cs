@@ -10,9 +10,9 @@ public class World : MonoBehaviour
     public static World Instance;
 
     public Material Material;
-    public Voxel[] VoxelTypes;
+    public Block[] VoxelTypes;
 
-    Chunk[,] chunks = new Chunk[VoxelData.WorldWidthInChunks, VoxelData.WorldWidthInChunks];
+    Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
 
     private void Awake()
     {
@@ -23,17 +23,17 @@ public class World : MonoBehaviour
 
     void Start()
     {
-        for (int x = 0; x < VoxelData.WorldWidthInChunks; x++)
+        for (int x = 0; x < BlockData.WorldWidthInChunks; x++)
         {
-            for (int z = 0; z < VoxelData.WorldWidthInChunks; z++)
+            for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
             {
                 chunks[x, z] = new Chunk(this, new Vector3Int(x, 0, z), false);
             }
         }
 
-        for (int x = 0; x < VoxelData.WorldWidthInChunks; x++)
+        for (int x = 0; x < BlockData.WorldWidthInChunks; x++)
         {
-            for (int z = 0; z < VoxelData.WorldWidthInChunks; z++)
+            for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
             {
                 chunks[x, z].Draw();
             }
@@ -42,27 +42,60 @@ public class World : MonoBehaviour
     
     public bool IsVoxelSolid(Vector3Int pos)
     {
-        var chunkCoord = new Vector2Int(Mathf.FloorToInt(((float) pos.x) / VoxelData.ChunkWidth), Mathf.FloorToInt(((float)pos.z) / VoxelData.ChunkWidth));
+        var chunkCoord = new Vector2Int(Mathf.FloorToInt(((float) pos.x) / BlockData.ChunkWidth), Mathf.FloorToInt(((float)pos.z) / BlockData.ChunkWidth));
 
-        if (chunkCoord.x < 0 || chunkCoord.x >= VoxelData.WorldWidthInChunks || chunkCoord.y < 0 || chunkCoord.y >= VoxelData.WorldWidthInChunks)
+        if (chunkCoord.x < 0 || chunkCoord.x >= BlockData.WorldWidthInChunks || chunkCoord.y < 0 || chunkCoord.y >= BlockData.WorldWidthInChunks)
             return false;
 
-        return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % VoxelData.ChunkWidth, pos.y, pos.z % VoxelData.ChunkWidth));
+        return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
     }
 
     public byte GetBlockTypeAt(Vector3Int pos)
     {
         if (IsCoordOutsideWord(pos))
-            return 0;
+            Debug.LogWarning("Accessing block outside world");
 
-        Vector2Int chunk = new Vector2(pos.x / VoxelData.ChunkWidth, pos.z / VoxelData.ChunkWidth).Floor();
-        return chunks[chunk.x, chunk.y].GetBlockTypeAt((new Vector3(pos.x % VoxelData.ChunkWidth, pos.y, pos.z % VoxelData.ChunkWidth)).Floor());
+        Vector2Int chunk = GetChunkCoord(pos);
+        return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
+    }
+
+    public void EditBlock(Vector3Int pos, byte type)
+    {
+        if (IsCoordOutsideWord(pos))
+            return;
+
+        Vector2Int chunkCoord = GetChunkCoord(pos);
+        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type);
     }
 
     public bool IsCoordOutsideWord(Vector3Int pos)
     {
-        int worldWidth = VoxelData.WorldWidthInChunks * VoxelData.ChunkWidth;
-        return (pos.x < 0 || pos.x >= worldWidth || pos.y < 0 || pos.y >= VoxelData.ChunkHeight || pos.z < 0 || pos.z >= worldWidth);
+        int worldWidth = BlockData.WorldWidthInChunks * BlockData.ChunkWidth;
+        return (pos.x < 0 || pos.x >= worldWidth || pos.y < 0 || pos.y >= BlockData.ChunkHeight || pos.z < 0 || pos.z >= worldWidth);
+    }
+
+    public bool IsChunkOutsideWorld(Vector3Int pos)
+    {
+        return (pos.x < 0 || pos.x >= BlockData.WorldWidthInChunks || pos.z < 0 || pos.z >= BlockData.WorldWidthInChunks);
+    }
+
+    public Vector2Int GetChunkCoord(Vector3Int pos)
+    {
+        return new Vector2(pos.x / BlockData.ChunkWidth, pos.z / BlockData.ChunkWidth).Floor();
+    }
+
+    internal void UpdateChunk(Vector3Int pos)
+    {
+        if (IsChunkOutsideWorld(pos))
+            return;
+
+        chunks[pos.x, pos.z].Update();
+        Debug.Log("Update");
+    }
+
+    public Vector3Int GetBlockPosInChunk(Vector3Int pos)
+    {
+        return new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth);
     }
 
     #region World Generation
@@ -85,8 +118,8 @@ public class World : MonoBehaviour
     public static float Get2DPerline(Vector2 position, float offset, float scale)
     {
         return Mathf.PerlinNoise(
-            (position.x + 0.1f) / VoxelData.ChunkWidth * scale + offset,
-            (position.y + 0.1f) / VoxelData.ChunkWidth * scale + offset
+            (position.x + 0.1f) / BlockData.ChunkWidth * scale + offset,
+            (position.y + 0.1f) / BlockData.ChunkWidth * scale + offset
             );
     }
 

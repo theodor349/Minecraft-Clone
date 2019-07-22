@@ -53,13 +53,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Block.cs" />
+     <Compile Include="Assets\Scripts\BlockData.cs" />
      <Compile Include="Assets\Scripts\Physics\Collider.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\UI\InfoOverlay.cs" />
      <Compile Include="Assets\Scripts\Utill\Chunk.cs" />
      <Compile Include="Assets\Scripts\Utill\Extentions.cs" />
-     <Compile Include="Assets\Scripts\Voxel.cs" />
-     <Compile Include="Assets\Scripts\VoxelData.cs" />
      <Compile Include="Assets\Scripts\World.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/theod/Documents/GitHub/Minecraft-Clone/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
