@@ -55,7 +55,7 @@ public class World : MonoBehaviour
     public byte GetBlockTypeAt(Vector3Int pos)
     {
         if (IsCoordOutsideWord(pos))
-            Debug.LogWarning("Accessing block outside world");
+            return 0;
 
         Vector2Int chunk = GetChunkCoord(pos);
         return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
