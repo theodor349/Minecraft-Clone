@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private World world;
     private Collider col;
+    [SerializeField]
+    private Inventory inventory;
 
     private Vector3 velocity;
     private float yVelocity;
@@ -54,6 +56,13 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
+
+        if (Input.GetKeyDown(KeyCode.R))
+            if (inventory.PickUp(new Item(2, 11)) == 0)
+                Debug.Log("Nothing PickUp");
+        if (Input.GetKeyDown(KeyCode.Q))
+            if (inventory.PickUp(new Item(3, 65)) == 0)
+                Debug.Log("Nothing PickUp");
     }
 
     private void FixedUpdate()
