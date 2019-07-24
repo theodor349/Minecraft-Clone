@@ -11,14 +11,12 @@ public class ToolBelt : MonoBehaviour
     public Image SelectedItemSlot;
 
     private World world;
-    private RectTransform rectTransform;
     private int selectedIndex;
 
     private void Start()
     {
         world = World.Instance;
 
-        rectTransform = GetComponent<RectTransform>();
         selectedIndex = Player.SelectedItemSlot;
 
         for (int i = 1; i < world.BlockTypes.Length; i++)

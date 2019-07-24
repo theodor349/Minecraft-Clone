@@ -7,8 +7,14 @@ public class InventorySlot : MonoBehaviour
 {
     public Image ItemImage;
     public Text ItemAmountText;
+    public InventoryCursor cursor;
 
     private Item item;
+
+    private void Start()
+    {
+        cursor = InventoryCursor.instance;
+    }
 
     public bool IsEmpty()
     {
@@ -24,6 +30,41 @@ public class InventorySlot : MonoBehaviour
             return 0;
 
         return this.item.MaxStackSize - this.item.StackSize;
+    }
+
+    public void OnClick()
+    {
+        Item other = cursor.ReadItem();
+
+        if (other == null)
+        {
+            cursor.PutItem(RemoveItem());
+            return;
+        }
+
+        if(item == null)
+        {
+            PutItem(cursor.GetItem());
+            return;
+        }
+
+        if (item.BlockType != other.BlockType)
+        {
+            cursor.PutItem(RemoveItem());
+            PutItem(other);
+            return;
+        }
+
+        int amount = Accepts(other);
+        amount = Mathf.Min(amount, other.StackSize);
+
+        if (amount == other.StackSize)
+        {
+            PutItem(cursor.GetItem());
+            return;
+        }
+
+        PutItem(cursor.Take(amount));
     }
 
     public Item GetItem()

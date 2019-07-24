@@ -10,11 +10,16 @@ public class Inventory : MonoBehaviour
     public InventorySlot[] CraftingInput;
     public InventorySlot CraftingInputOutput;
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
+        {
             InventoryUI.SetActive(!InventoryUI.activeSelf);
+            if (InventoryUI.activeSelf)
+                Cursor.lockState = CursorLockMode.None;
+            else 
+                Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public bool CanPickUp(Item item)
@@ -45,8 +50,6 @@ public class Inventory : MonoBehaviour
             Slots[index].PutItem(Item.Copy(item, amount));
             return amount;
         }
-
-
     }
 
     private int GetFreeSlotIndex(Item item)
@@ -54,13 +57,13 @@ public class Inventory : MonoBehaviour
         int index = -1;
         for (int i = 0; i < Slots.Length; i++)
         {
-            if (Slots[i].Accepts(item) > 0)
+            if (Slots[i].GetItem() != null && Slots[i].Accepts(item) > 0)
                 return i;
 
-            if (Slots[i].IsEmpty())
+            if (Slots[i].IsEmpty() && index == -1)
                 index = i;
         }
 
-        return -1;
+        return index;
     }
 }

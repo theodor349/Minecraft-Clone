@@ -79,6 +79,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
         XRotation += Input.GetAxisRaw("Mouse X") * MouseSensativity;
         transform.rotation = Quaternion.Euler(0, XRotation, 0);
 
