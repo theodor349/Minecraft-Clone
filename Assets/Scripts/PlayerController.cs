@@ -24,9 +24,6 @@ public class PlayerController : MonoBehaviour
     public Transform HighlightBlock;
     public Transform PlacementBlock;
 
-    [Header("State")]
-    public int SelectedItemSlot = 0;
-
     private World world;
     private Collider col;
     [SerializeField]
@@ -97,22 +94,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             world.EditBlock(HighlightBlockPos, 0);
         else if (Input.GetMouseButtonDown(1))
-            world.EditBlock(PlacementBlockPos, (byte)(SelectedItemSlot + 1));
-
-        InputScroolWheel();        
-    }
-
-    private void InputScroolWheel()
-    {
-        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
-            SelectedItemSlot++;
-        else if (Input.GetAxisRaw("Mouse ScrollWheel") > 0)
-            SelectedItemSlot--;
-
-        if (SelectedItemSlot < 0)
-            SelectedItemSlot = world.BlockTypes.Length - 2;
-        else if (SelectedItemSlot == world.BlockTypes.Length - 1)
-            SelectedItemSlot = 0;
+            world.EditBlock(PlacementBlockPos, (byte)(inventory.Slots[inventory.SelectedSlot].ReadItem().BlockType));
     }
 
     private void SetHighlightBlockPos()

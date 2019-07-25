@@ -8,6 +8,9 @@ public class InventorySlot : MonoBehaviour
     public Image ItemImage;
     public Text ItemAmountText;
     public InventoryCursor cursor;
+    public int SlotIndex;
+    public Inventory MyInventory;
+    public bool IsToolBar;
 
     private Item item;
 
@@ -67,7 +70,7 @@ public class InventorySlot : MonoBehaviour
         PutItem(cursor.Take(amount));
     }
 
-    public Item GetItem()
+    public Item ReadItem()
     {
         return item;
     }
@@ -93,7 +96,10 @@ public class InventorySlot : MonoBehaviour
 
     private void UpdateSlot()
     {
-        if(item == null)
+        if(!IsToolBar)
+            MyInventory.SlotChanged(SlotIndex, item);
+
+        if (item == null)
         {
             ItemImage.color = new Color(255f, 255f, 255f, 0f);
             ItemAmountText.text = "";
@@ -105,5 +111,4 @@ public class InventorySlot : MonoBehaviour
             ItemAmountText.text = item.StackSize == 1 ? "" : item.StackSize.ToString();
         }
     }
-
 }

@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -9,6 +10,24 @@ public class Inventory : MonoBehaviour
     public InventorySlot[] Amor;
     public InventorySlot[] CraftingInput;
     public InventorySlot CraftingInputOutput;
+
+    public InventorySlot[] ToolBar;
+    public Image SelectedItemSlot;
+    public int SelectedSlot = 0;
+
+    private World world;
+
+
+    private void Start()
+    {
+        world = World.Instance;
+
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            Slots[i].SlotIndex = i;
+            Slots[i].MyInventory = this;
+        }
+    }
 
     private void Update()
     {
@@ -20,6 +39,39 @@ public class Inventory : MonoBehaviour
             else 
                 Cursor.lockState = CursorLockMode.Locked;
         }
+
+        if (!InventoryUI.activeSelf)
+        {
+            if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
+            {
+                SelectedSlot++;
+                UpdateToolBelt();
+            }
+            else if (Input.GetAxisRaw("Mouse ScrollWheel") > 0)
+            {
+                SelectedSlot--;
+                UpdateToolBelt();
+            }
+        }
+    }
+    
+    public void SlotChanged(int index, Item item)
+    {
+        if (index >= 9)
+            return;
+
+        ToolBar[index].RemoveItem();
+        ToolBar[index].PutItem(item);
+    }
+
+    private void UpdateToolBelt()
+    {
+        if (SelectedSlot < 0)
+            SelectedSlot = 8;
+        else if (SelectedSlot == 9)
+            SelectedSlot = 0;
+
+        SelectedItemSlot.rectTransform.position = ToolBar[SelectedSlot].GetComponent<RectTransform>().position;
     }
 
     public bool CanPickUp(Item item)
@@ -57,7 +109,7 @@ public class Inventory : MonoBehaviour
         int index = -1;
         for (int i = 0; i < Slots.Length; i++)
         {
-            if (Slots[i].GetItem() != null && Slots[i].Accepts(item) > 0)
+            if (Slots[i].ReadItem() != null && Slots[i].Accepts(item) > 0)
                 return i;
 
             if (Slots[i].IsEmpty() && index == -1)
