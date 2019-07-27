@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             world.EditBlock(HighlightBlockPos, 0);
         else if (Input.GetMouseButtonDown(1))
-            world.EditBlock(PlacementBlockPos, (byte)(inventory.Slots[inventory.SelectedSlot].ReadItem().BlockType));
+            world.EditBlock(PlacementBlockPos, (byte)(inventory.GetSlectedItem().BlockType));
     }
 
     private void SetHighlightBlockPos()

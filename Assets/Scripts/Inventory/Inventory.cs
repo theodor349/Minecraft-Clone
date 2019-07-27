@@ -6,27 +6,66 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public GameObject InventoryUI;
-    public InventorySlot[] Slots;
-    public InventorySlot[] Amor;
-    public InventorySlot[] CraftingInput;
-    public InventorySlot CraftingInputOutput;
+    public InventorySlot[] UISlots;
+    public InventorySlot[] UIArmor;
+    public InventorySlot[] UICraftingInput;
+    public InventorySlot UICraftingOutput;
 
-    public InventorySlot[] ToolBar;
+    public InventorySlot[] UIToolBar;
     public Image SelectedItemSlot;
     public int SelectedSlot = 0;
 
-    private World world;
-
+    private Slot[] inventory;
+    private Slot[] armor;
+    private Slot[] craftingInput;
+    private Slot craftingOutput;
 
     private void Start()
     {
-        world = World.Instance;
+        inventory = new Slot[UISlots.Length];
+        armor = new Slot[UIArmor.Length];
+        craftingInput = new Slot[UICraftingInput.Length];
 
-        for (int i = 0; i < Slots.Length; i++)
+        SetupCallbacks();
+    }
+
+    private void SetupCallbacks()
+    {
+        for (int i = 0; i < UISlots.Length; i++)
         {
-            Slots[i].SlotIndex = i;
-            Slots[i].MyInventory = this;
+            inventory[i] = new Slot();
+            inventory[i].RegistreSlotChangedAction(UISlots[i].UpdateSlot);
+            UISlots[i].PlayerInventory = this;
+            UISlots[i].Index = i;
         }
+
+        for (int i = 0; i < UIToolBar.Length; i++)
+        {
+            inventory[i].RegistreSlotChangedAction(UIToolBar[i].UpdateSlot);
+            UIToolBar[i].PlayerInventory = this;
+            UIToolBar[i].Index = i;
+        }
+
+        for (int i = 0; i < UIArmor.Length; i++)
+        {
+            armor[i] = new Slot();
+            armor[i].RegistreSlotChangedAction(UIArmor[i].UpdateSlot);
+            UIArmor[i].PlayerInventory = this;
+            UIArmor[i].Index = UISlots.Length + i;
+        }
+
+        for (int i = 0; i < UICraftingInput.Length; i++)
+        {
+            craftingInput[i] = new Slot();
+            craftingInput[i].RegistreSlotChangedAction(UICraftingInput[i].UpdateSlot);
+            UICraftingInput[i].PlayerInventory = this;
+            UICraftingInput[i].Index = UIArmor.Length + UISlots.Length + i;
+        }
+
+        craftingOutput = new Slot();
+        craftingOutput.RegistreSlotChangedAction(UICraftingOutput.UpdateSlot);
+        UICraftingOutput.PlayerInventory = this;
+        UICraftingOutput.Index = UICraftingInput.Length + UIArmor.Length + UISlots.Length;
     }
 
     private void Update()
@@ -54,15 +93,6 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    
-    public void SlotChanged(int index, Item item)
-    {
-        if (index >= 9)
-            return;
-
-        ToolBar[index].RemoveItem();
-        ToolBar[index].PutItem(item);
-    }
 
     private void UpdateToolBelt()
     {
@@ -71,7 +101,7 @@ public class Inventory : MonoBehaviour
         else if (SelectedSlot == 9)
             SelectedSlot = 0;
 
-        SelectedItemSlot.rectTransform.position = ToolBar[SelectedSlot].GetComponent<RectTransform>().position;
+        SelectedItemSlot.rectTransform.position = UIToolBar[SelectedSlot].GetComponent<RectTransform>().position;
     }
 
     public bool CanPickUp(Item item)
@@ -81,41 +111,81 @@ public class Inventory : MonoBehaviour
 
     public int PickUp(Item item)
     {
-        int index = GetFreeSlotIndex(item);
-        if (index == -1)
+        int i = GetFreeSlotIndex(item);
+        if (i == -1)
             return 0;
 
-        int amount = Slots[index].Accepts(item);
+        int amount = Accepts(item, i);
         if(amount >= item.StackSize)
         {
-            Slots[index].PutItem(item);
+            PutItem(item, i);
             return item.StackSize;
         }
         else if(amount < item.StackSize)
         {
-            Slots[index].PutItem(Item.Copy(item, amount));
+            PutItem(Item.Copy(item, amount), i);
             item.StackSize -= amount;
             return amount + PickUp(item);
         }
         else
         {
-            Slots[index].PutItem(Item.Copy(item, amount));
+            PutItem(Item.Copy(item, amount), i);
             return amount;
         }
+    }
+
+    public Item GetSlectedItem()
+    {
+        return inventory[SelectedSlot].MyItem;
     }
 
     private int GetFreeSlotIndex(Item item)
     {
         int index = -1;
-        for (int i = 0; i < Slots.Length; i++)
+        for (int i = 0; i < inventory.Length; i++)
         {
-            if (Slots[i].ReadItem() != null && Slots[i].Accepts(item) > 0)
+            if (inventory[i].MyItem != null && Accepts(item, i) > 0)
                 return i;
 
-            if (Slots[i].IsEmpty() && index == -1)
+            if (inventory[i].MyItem == null && index == -1)
                 index = i;
         }
 
         return index;
+    }
+
+    public int Accepts(Item item, int i)
+    {
+        if (inventory[i].MyItem == null)
+            return item.MaxStackSize;
+
+        if (item.BlockType != inventory[i].MyItem.BlockType)
+            return 0;
+
+        return inventory[i].MyItem.MaxStackSize - inventory[i].MyItem.StackSize;
+    }
+
+    public void PutItem(Item item, int i)
+    {
+        if (inventory[i].MyItem == null)
+        {
+            inventory[i].MyItem = item;
+        }
+        else
+            inventory[i].MyItem.StackSize += item.StackSize;
+
+    }
+
+    public Item RemoveItem(int i)
+    {
+        Item item = inventory[i].MyItem;
+        inventory[i].MyItem = null;
+
+        return item;
+    }
+
+    public Item ReadItem(int i)
+    {
+        return inventory[i].MyItem;
     }
 }

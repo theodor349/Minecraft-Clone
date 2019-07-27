@@ -7,8 +7,20 @@ public class Item
 {
     public byte BlockType;
     public Sprite Icon;
-    public int StackSize;
     public int MaxStackSize;
+    public Action<Item> ItemChanged;
+
+    private int stackSize;
+    public int StackSize {
+        get {
+            return stackSize;
+        }
+        set {
+            stackSize = value;
+            if(ItemChanged != null)
+                ItemChanged(this);
+        }
+    }
 
     // Just initialize with a normal block
     public Item(byte blockType, int amount)
@@ -22,5 +34,15 @@ public class Item
     internal static Item Copy(Item item, int amount)
     {
         return new Item(item.BlockType, amount);
+    }
+
+    public void RegistreItemChangedAction(Action<Item> callback)
+    {
+        ItemChanged += callback;
+    }
+
+    public void UnregistreItemChanged(Action<Item> callback)
+    {
+        ItemChanged -= callback;
     }
 }

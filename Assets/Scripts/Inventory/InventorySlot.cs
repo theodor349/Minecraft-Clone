@@ -7,32 +7,14 @@ public class InventorySlot : MonoBehaviour
 {
     public Image ItemImage;
     public Text ItemAmountText;
-    public InventoryCursor cursor;
-    public int SlotIndex;
-    public Inventory MyInventory;
-    public bool IsToolBar;
+    public Inventory PlayerInventory;
+    public int Index;
 
-    private Item item;
+    private InventoryCursor cursor;
 
     private void Start()
     {
         cursor = InventoryCursor.instance;
-    }
-
-    public bool IsEmpty()
-    {
-        return item == null;
-    }
-
-    public int Accepts(Item item)
-    {
-        if (this.item == null)
-            return item.MaxStackSize;
-
-        if (item.BlockType != this.item.BlockType)
-            return 0;
-
-        return this.item.MaxStackSize - this.item.StackSize;
     }
 
     public void OnClick()
@@ -41,64 +23,37 @@ public class InventorySlot : MonoBehaviour
 
         if (other == null)
         {
-            cursor.PutItem(RemoveItem());
+            cursor.PutItem(PlayerInventory.RemoveItem(Index));
             return;
         }
 
-        if(item == null)
+        if (PlayerInventory.ReadItem(Index) == null)
         {
-            PutItem(cursor.GetItem());
+            PlayerInventory.PutItem(cursor.GetItem(), Index);
             return;
         }
 
-        if (item.BlockType != other.BlockType)
+        if (PlayerInventory.ReadItem(Index).BlockType != other.BlockType)
         {
-            cursor.PutItem(RemoveItem());
-            PutItem(other);
+            cursor.PutItem(PlayerInventory.RemoveItem(Index));
+            PlayerInventory.PutItem(other, Index);
             return;
         }
 
-        int amount = Accepts(other);
+        int amount = PlayerInventory.Accepts(other, Index);
         amount = Mathf.Min(amount, other.StackSize);
 
         if (amount == other.StackSize)
         {
-            PutItem(cursor.GetItem());
+            PlayerInventory.PutItem(cursor.GetItem(), Index);
             return;
         }
 
-        PutItem(cursor.Take(amount));
+        PlayerInventory.PutItem(cursor.Take(amount), Index);
     }
 
-    public Item ReadItem()
+    public void UpdateSlot(Item item)
     {
-        return item;
-    }
-
-    public void PutItem(Item item)
-    {
-        if (this.item == null)
-            this.item = item;
-        else
-            this.item.StackSize += item.StackSize;
-
-        UpdateSlot();
-    }
-
-    public Item RemoveItem()
-    {
-        Item i = item;
-        item = null;
-
-        UpdateSlot();
-        return i;
-    }
-
-    private void UpdateSlot()
-    {
-        if(!IsToolBar)
-            MyInventory.SlotChanged(SlotIndex, item);
-
         if (item == null)
         {
             ItemImage.color = new Color(255f, 255f, 255f, 0f);
