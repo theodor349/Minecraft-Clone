@@ -17,9 +17,36 @@ public class InventorySlot : MonoBehaviour
         cursor = InventoryCursor.instance;
     }
 
-    public void OnClick()
+    public void RightClick()
     {
         Item other = cursor.ReadItem();
+        Item item = PlayerInventory.ReadItem(Index);
+
+        if (other == null && item == null)
+            return;
+
+        if (other == null && item != null)
+        {
+            int amount = Mathf.FloorToInt(PlayerInventory.ReadItem(Index).StackSize * 0.5f);
+            if (amount == 0)
+                cursor.PutItem(PlayerInventory.RemoveItem(Index));
+            else
+                cursor.PutItem(PlayerInventory.Take(amount, Index));
+
+            return;
+        }
+
+        if (PlayerInventory.Accepts(other, Index) > 0)
+        {
+            PlayerInventory.PutItem(cursor.Take(1), Index);
+            return;
+        }
+    }
+
+    public void LeftClick()
+    {
+        Item other = cursor.ReadItem();
+        Item item = PlayerInventory.ReadItem(Index);
 
         if (other == null)
         {
@@ -27,13 +54,13 @@ public class InventorySlot : MonoBehaviour
             return;
         }
 
-        if (PlayerInventory.ReadItem(Index) == null)
+        if (item == null)
         {
             PlayerInventory.PutItem(cursor.GetItem(), Index);
             return;
         }
 
-        if (PlayerInventory.ReadItem(Index).BlockType != other.BlockType)
+        if (item.BlockType != other.BlockType)
         {
             cursor.PutItem(PlayerInventory.RemoveItem(Index));
             PlayerInventory.PutItem(other, Index);

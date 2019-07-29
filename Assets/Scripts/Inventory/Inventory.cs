@@ -184,6 +184,13 @@ public class Inventory : MonoBehaviour
         return item;
     }
 
+    public Item Take(int amount, int i)
+    {
+        Item item = Item.Copy(ReadItem(i), amount);
+        ReadItem(i).StackSize -= amount;
+        return item;
+    }
+
     public Item ReadItem(int i)
     {
         return inventory[i].MyItem;

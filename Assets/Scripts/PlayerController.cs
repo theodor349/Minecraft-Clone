@@ -90,6 +90,13 @@ public class PlayerController : MonoBehaviour
     private void HandelInput()
     {
         InputMovement();
+        InputMouseButtons();
+    }
+
+    private void InputMouseButtons()
+    {
+        if (inventory.InventoryUI.activeSelf)
+            return;
 
         if (Input.GetMouseButtonDown(0))
             world.EditBlock(HighlightBlockPos, 0);

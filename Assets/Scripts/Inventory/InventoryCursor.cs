@@ -14,10 +14,16 @@ public class InventoryCursor : MonoBehaviour
 
     private Item item;
     private bool isActive;
+    private Vector3 offset;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void OnEnable()
+    {
+        UpdateVisuals();
     }
 
     private void Update()
@@ -29,7 +35,6 @@ public class InventoryCursor : MonoBehaviour
 
         isActive = Inventory.activeSelf;
 
-        UpdateVisuals();
     }
 
     private void UpdateVisuals()
@@ -57,9 +62,13 @@ public class InventoryCursor : MonoBehaviour
     public Item Take(int amount)
     {
         item.StackSize -= amount;
+        Item i = Item.Copy(item, amount);
+
+        if (item.StackSize < 1)
+            item = null;
 
         UpdateVisuals();
-        return Item.Copy(item, amount);
+        return i;
     }
 
     public Item GetItem()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 770514825859334042}
   - component: {fileID: 718590485572285575}
   - component: {fileID: 7802585623520533769}
-  - component: {fileID: 1731664757300301389}
+  - component: {fileID: 3514174698773635643}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -93,11 +93,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImage: {fileID: 4755546639841770639}
   ItemAmountText: {fileID: 4360366595185682071}
-  cursor: {fileID: 0}
-  SlotIndex: 0
-  MyInventory: {fileID: 0}
-  IsToolBar: 0
---- !u!114 &1731664757300301389
+  PlayerInventory: {fileID: 0}
+  Index: 0
+--- !u!114 &3514174698773635643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +104,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2311772319514508057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b86e7183c9148c489503708d81db881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -137,11 +135,11 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 718590485572285575}
-  m_OnClick:
+  m_LeftClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7802585623520533769}
-        m_MethodName: OnClick
+        m_MethodName: LeftClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -151,7 +149,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+    m_TypeName: ClickableObject+ButtonClickedEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_RightClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7802585623520533769}
+        m_MethodName: RightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: ClickableObject+ButtonClickedEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &2313076721175671057
 GameObject:
@@ -187,8 +201,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -8, y: 6.5}
-  m_SizeDelta: {x: 12, y: 13}
+  m_AnchoredPosition: {x: -12, y: 12}
+  m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8040718997303461257
 CanvasRenderer:
@@ -220,12 +234,12 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: bb6b2e48c98c8bc478f00a5caf313b69, type: 3}
-    m_FontSize: 14
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 2
+    m_Alignment: 8
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
