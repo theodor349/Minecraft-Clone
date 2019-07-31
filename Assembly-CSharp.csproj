@@ -55,6 +55,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\BlockData.cs" />
+     <Compile Include="Assets\Scripts\Chunk.cs" />
+     <Compile Include="Assets\Scripts\CollisionObject.cs" />
      <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventoryCursor.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
@@ -64,7 +66,6 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\UI\ClickableObject.cs" />
      <Compile Include="Assets\Scripts\UI\InfoOverlay.cs" />
-     <Compile Include="Assets\Scripts\Utill\Chunk.cs" />
      <Compile Include="Assets\Scripts\Utill\Extentions.cs" />
      <Compile Include="Assets\Scripts\World.cs" />
  <Reference Include="Unity.Timeline.Editor">

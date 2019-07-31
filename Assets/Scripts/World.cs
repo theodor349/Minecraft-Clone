@@ -29,7 +29,7 @@ public class World : MonoBehaviour
         {
             for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
             {
-                chunks[x, z] = new Chunk(this, new Vector3Int(x, 0, z), false);
+                chunks[x, z] = new Chunk(this, new Vector2Int(x, z), false);
             }
         }
 
@@ -70,31 +70,52 @@ public class World : MonoBehaviour
         chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type);
     }
 
-    public bool IsCoordOutsideWord(Vector3Int pos)
+    internal void UpdateChunk(Vector2Int pos)
+    {
+        if (IsChunkOutsideWorld(pos))
+            return;
+
+        chunks[pos.x, pos.y].Update();
+    }
+
+    public void AddChunksToCollision(Vector2Int pos)
+    {
+        if (IsChunkOutsideWorld(pos))
+            return;
+
+        chunks[pos.x, pos.y].AddCollision();
+    }
+
+    public void RemoveChunksToCollision(Vector2Int pos)
+    {
+        if (IsChunkOutsideWorld(pos))
+            return;
+
+        chunks[pos.x, pos.y].RemoveCollision();
+    }
+
+    public static bool IsCoordOutsideWord(Vector3Int pos)
     {
         int worldWidth = BlockData.WorldWidthInChunks * BlockData.ChunkWidth;
         return (pos.x < 0 || pos.x >= worldWidth || pos.y < 0 || pos.y >= BlockData.ChunkHeight || pos.z < 0 || pos.z >= worldWidth);
     }
 
-    public bool IsChunkOutsideWorld(Vector3Int pos)
+    public static bool IsChunkOutsideWorld(Vector2Int pos)
     {
-        return (pos.x < 0 || pos.x >= BlockData.WorldWidthInChunks || pos.z < 0 || pos.z >= BlockData.WorldWidthInChunks);
+        return (pos.x < 0 || pos.x >= BlockData.WorldWidthInChunks || pos.y < 0 || pos.y >= BlockData.WorldWidthInChunks);
     }
 
-    public Vector2Int GetChunkCoord(Vector3Int pos)
+    public static Vector2Int GetChunkCoord(Vector3Int pos)
     {
         return new Vector2(pos.x / BlockData.ChunkWidth, pos.z / BlockData.ChunkWidth).Floor();
     }
 
-    internal void UpdateChunk(Vector3Int pos)
+    public static Vector3Int GetPosInChunk(Vector3Int pos)
     {
-        if (IsChunkOutsideWorld(pos))
-            return;
-
-        chunks[pos.x, pos.z].Update();
+        return new Vector3Int((int)pos.x / BlockData.ChunkWidth, pos.y, pos.z / BlockData.ChunkWidth);
     }
 
-    public Vector3Int GetBlockPosInChunk(Vector3Int pos)
+    public static Vector3Int GetBlockPosInChunk(Vector3Int pos)
     {
         return new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth);
     }

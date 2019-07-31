@@ -7,41 +7,44 @@ using UnityEngine.U2D;
 public enum Direction { Center, North, South, West, East };
 public class Chunk
 {
-    GameObject obj;
-    Vector3Int chunkPos;
-    Vector3Int chunkCoord;
-    MeshRenderer rendere;
-    MeshFilter filter;
-    MeshCollider collider;
+    private int collisionPointers = 0;
 
-    World world;
+    private GameObject obj;
+    private Vector3Int chunkPos;
+    private Vector2Int chunkCoord;
+    private MeshRenderer rendere;
+    private MeshFilter filter;
+    private MeshCollider collider;
 
-    Material mat;
-    Mesh mesh;
-    SpriteAtlas blockAtlas;
-    List<Vector3> verts = new List<Vector3>();
-    List<int> tries = new List<int>();
-    List<Vector2> uvs = new List<Vector2>();
+    private World world;
 
-    byte[,,] blocks;
+    private Material mat;
+    private Mesh mesh;
+    private List<Vector3> verts = new List<Vector3>();
+    private List<int> tries = new List<int>();
+    private List<Vector2> uvs = new List<Vector2>();
 
-    int vertexIndex = 0;
+    private byte[,,] blocks;
 
-    public Chunk(World world, Vector3Int pos, bool drawOnInit = true)
+    // Drawing
+    private int vertexIndex = 0;
+
+    public Chunk(World world, Vector2Int pos, bool drawOnInit = true)
     {
         this.world = world;
         mat = world.Material;
         chunkCoord = pos;
-        chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, pos.y, pos.z * BlockData.ChunkWidth);
+        chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, 0, pos.y * BlockData.ChunkWidth);
 
         obj = new GameObject();
         obj.transform.position = chunkPos;
         obj.transform.SetParent(world.transform);
-        obj.name = "Chunk " + chunkCoord.x + "_" + chunkCoord.z;
+        obj.name = "Chunk " + chunkCoord.x + "_" + chunkCoord.y;
 
         rendere = obj.AddComponent<MeshRenderer>();
         filter = obj.AddComponent<MeshFilter>();
         collider = obj.AddComponent<MeshCollider>();
+        collider.enabled = false;
 
         GenerateChunk();
         if (drawOnInit)
@@ -88,13 +91,27 @@ public class Chunk
 
         var edge = IsOnEdgeOfChunk(pos);
         if(edge == Direction.North)
-            world.UpdateChunk(chunkCoord + new Vector3Int(0, 0, 1));
+            world.UpdateChunk(chunkCoord + new Vector2Int(0, 1));
         else if(edge == Direction.South)
-            world.UpdateChunk(chunkCoord + new Vector3Int(0, 0, -1));
+            world.UpdateChunk(chunkCoord + new Vector2Int(0, -1));
         else if (edge == Direction.West)
-            world.UpdateChunk(chunkCoord + new Vector3Int(-1, 0, 0));
+            world.UpdateChunk(chunkCoord + new Vector2Int(-1, 0));
         else if (edge == Direction.East)
-            world.UpdateChunk(chunkCoord + new Vector3Int(1, 0, 0));
+            world.UpdateChunk(chunkCoord + new Vector2Int(1, 0));
+    }
+
+    public void AddCollision()
+    {
+        if (collisionPointers == 0)
+            collider.enabled = true;
+        collisionPointers++;
+    }
+
+    public void RemoveCollision()
+    {
+        collisionPointers--;
+        if (collisionPointers == 0)
+            collider.enabled = false;
     }
 
     public void Update()
@@ -144,6 +161,8 @@ public class Chunk
 
         mesh.RecalculateNormals();
         filter.mesh = mesh;
+        if (collisionPointers > 0)
+            collider.sharedMesh = mesh;
         rendere.material = mat;
         collider.sharedMesh = mesh;
     }
