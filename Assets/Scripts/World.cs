@@ -18,7 +18,7 @@ public class World : MonoBehaviour
     {
         if (Instance != null)
             Debug.LogError("World: Multiple Worlds");
-        Instance = this;
+        World.Instance = this;
 
         BlockData.Init();
     }

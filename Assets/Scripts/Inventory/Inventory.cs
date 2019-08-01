@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Inventory : MonoBehaviour
 {
@@ -70,13 +71,20 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+            if (PickUp(new Item(2, 11)) == 0)
+                Debug.Log("Nothing PickUp");
+        if (Input.GetKeyDown(KeyCode.Q))
+            if (PickUp(new Item(3, 65)) == 0)
+                Debug.Log("Nothing PickUp");
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             InventoryUI.SetActive(!InventoryUI.activeSelf);
             if (InventoryUI.activeSelf)
-                Cursor.lockState = CursorLockMode.None;
-            else 
-                Cursor.lockState = CursorLockMode.Locked;
+                MouseLook.SetMouseLock(false);
+            else
+                MouseLook.SetMouseLock(true);
         }
 
         if (!InventoryUI.activeSelf)

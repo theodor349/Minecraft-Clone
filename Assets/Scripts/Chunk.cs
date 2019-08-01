@@ -37,6 +37,7 @@ public class Chunk
         chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, 0, pos.y * BlockData.ChunkWidth);
 
         obj = new GameObject();
+        obj.layer = 8; 
         obj.transform.position = chunkPos;
         obj.transform.SetParent(world.transform);
         obj.name = "Chunk " + chunkCoord.x + "_" + chunkCoord.y;
