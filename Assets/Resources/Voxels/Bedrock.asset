@@ -16,6 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 7196079105303995997, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
   IsTransparent: 0
+  Hardness: -1
   Back: 9
   Front: 9
   Top: 9

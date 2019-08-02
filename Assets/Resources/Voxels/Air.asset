@@ -16,6 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 0}
   IsSolid: 0
   IsTransparent: 1
+  Hardness: -1
   Back: -1
   Front: -1
   Top: -1

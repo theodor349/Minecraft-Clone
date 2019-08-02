@@ -4,29 +4,52 @@ using UnityEngine;
 
 public class PlayerPlacement : MonoBehaviour
 {
-    //[SerializeField] private Transform blockDestroy;
-    //[SerializeField] private Transform blockPlace;
     [SerializeField] private Transform camPos;
     [SerializeField] private float range;
     [SerializeField] private Inventory inventory;
-    [SerializeField] private Collider collider;
-    private int layermask = 1 << 8;
+    [SerializeField] private Transform crakedBlock;
+    [SerializeField] private Material[] crakedMaterials;
 
+    private int layermask = 1 << 8;
     private World world;
-    private Vector3Int blockDestroyPos;
-    private Vector3Int blockPlacementPos;
+
+    private Vector3Int blockToPunch;
+    private float startTimeToDestroy;
+    private float timeToDestroy;
 
     private void Update()
     {
         world = World.Instance;
 
-        if (Input.GetMouseButtonDown(0))
-            world.EditBlock(BlockDestroy(), 0);
+        if (Input.GetMouseButton(0))
+            PunchBlock();
         else if (Input.GetMouseButtonDown(1))
         {
             Vector3Int pos = BlockPlacement();
             if (inventory.GetSlectedItem() != null)
                 world.EditBlock(pos , inventory.GetSlectedItem().BlockType);
+        }
+    }
+
+    private void PunchBlock()
+    {
+        Vector3Int block = BlockDestroy();
+        if (block != blockToPunch)
+        {
+            if (block == new Vector3Int(-1, -1, -1))
+                return;
+
+            blockToPunch = block;
+            timeToDestroy = world.BlockTypes[world.GetBlockTypeAt(blockToPunch)].Hardness;
+        }
+
+        timeToDestroy -= Time.deltaTime;
+
+
+        if(timeToDestroy <= 0)
+        {
+            world.EditBlock(blockToPunch, 0);
+            blockToPunch = new Vector3Int(-1, -1, -1);
         }
     }
 

@@ -11,6 +11,7 @@ public class Block : ScriptableObject
     public Sprite Icon;
     public bool IsSolid;
     public bool IsTransparent;
+    public int Hardness;
 
     [Header("Face Textures")]
     public int Back;
