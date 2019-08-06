@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-            if (PickUp(new Item(2, 11)) == 0)
+            if (PickUp(new Item(2, 1)) == 0)
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.Q))
             if (PickUp(new Item(3, 65)) == 0)
@@ -110,6 +110,15 @@ public class Inventory : MonoBehaviour
             SelectedSlot = 0;
 
         SelectedItemSlot.rectTransform.position = UIToolBar[SelectedSlot].GetComponent<RectTransform>().position;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Item"))
+        {
+            var item = other.GetComponent<ItemGameobject>();
+            item.Take(PickUp(Item.Copy(item.GetItem(), item.GetItem().StackSize)));
+        }
     }
 
     public bool CanPickUp(Item item)
@@ -196,6 +205,10 @@ public class Inventory : MonoBehaviour
     {
         Item item = Item.Copy(ReadItem(i), amount);
         ReadItem(i).StackSize -= amount;
+
+        if(ReadItem(i).StackSize == 0)
+            inventory[i].RemoveItem();
+
         return item;
     }
 

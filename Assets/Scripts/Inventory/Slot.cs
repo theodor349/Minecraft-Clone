@@ -24,6 +24,12 @@ public class Slot
     {
     }
 
+    public void RemoveItem()
+    {
+        myItem = null;
+        SlotChanged(myItem);
+    }
+
     public void RegistreSlotChangedAction(Action<Item> callback)
     {
         SlotChanged += callback;

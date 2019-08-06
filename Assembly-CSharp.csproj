@@ -60,9 +60,10 @@
      <Compile Include="Assets\Scripts\Inventory\InventoryCursor.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventorySlot.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
+     <Compile Include="Assets\Scripts\Inventory\ItemGameobject.cs" />
      <Compile Include="Assets\Scripts\Inventory\Slot.cs" />
-     <Compile Include="Assets\Scripts\Physics\Collider.cs" />
      <Compile Include="Assets\Scripts\Physics\CollisionObject.cs" />
+     <Compile Include="Assets\Scripts\Physics\MyCollider.cs" />
      <Compile Include="Assets\Scripts\Physics\PlayerPlacement.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\UI\ClickableObject.cs" />

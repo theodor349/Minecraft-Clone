@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CollisionObject : MonoBehaviour
 {
-    [SerializeField] private bool isPlayer;
+    [SerializeField] private bool isPlayer = false;
     [SerializeField] private int range = 7;
 
     private World world;

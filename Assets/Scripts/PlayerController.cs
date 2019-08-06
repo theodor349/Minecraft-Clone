@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(MyCollider))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public Transform PlacementBlock;
 
     private World world;
-    private Collider col;
+    private MyCollider col;
     [SerializeField]
     private Inventory inventory;
 
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         world = World.Instance;
-        col = GetComponent<Collider>();
+        col = GetComponent<MyCollider>();
     }
 
     private void Update()

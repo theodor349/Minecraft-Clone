@@ -9,7 +9,8 @@ public class World : MonoBehaviour
 {
     public static World Instance;
 
-    public Material Material;
+    public Material Mat;
+    public PhysicMaterial PhysicsMat;
     public Block[] BlockTypes;
 
     Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
@@ -59,6 +60,21 @@ public class World : MonoBehaviour
 
         Vector2Int chunk = GetChunkCoord(pos);
         return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
+    }
+
+    public void BreakBlock(Vector3Int pos)
+    {
+        if (IsCoordOutsideWord(pos))
+            return;
+
+        SpawnItem(pos);
+
+        EditBlock(pos, 0);
+    }
+
+    private void SpawnItem(Vector3Int pos)
+    {
+        new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(GetBlockTypeAt(pos), 1));
     }
 
     public void EditBlock(Vector3Int pos, byte type)

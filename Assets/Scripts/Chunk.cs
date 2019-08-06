@@ -32,7 +32,7 @@ public class Chunk
     public Chunk(World world, Vector2Int pos, bool drawOnInit = true)
     {
         this.world = world;
-        mat = world.Material;
+        mat = world.Mat;
         chunkCoord = pos;
         chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, 0, pos.y * BlockData.ChunkWidth);
 

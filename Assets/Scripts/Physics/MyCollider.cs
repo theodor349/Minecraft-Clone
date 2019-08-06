@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collider : MonoBehaviour
+public class MyCollider : MonoBehaviour
 {
     public float Width = 0.8f;
     public float Height = 1.8f;

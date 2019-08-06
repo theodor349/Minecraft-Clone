@@ -33,11 +33,17 @@ public class PlayerPlacement : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             ResetPunchBlock();
         else if (Input.GetMouseButtonDown(1))
-        {
-            Vector3Int pos = BlockPlacement();
-            if (inventory.GetSlectedItem() != null)
-                world.EditBlock(pos, inventory.GetSlectedItem().BlockType);
-        }
+            PlaceBlock();
+    }
+
+    private void PlaceBlock()
+    {
+        Vector3Int pos = BlockPlacement();
+        if (inventory.GetSlectedItem() == null)
+            return;
+
+        world.EditBlock(pos, inventory.GetSlectedItem().BlockType);
+        inventory.Take(1, inventory.SelectedSlot);
     }
 
     private void PunchBlock()
@@ -59,7 +65,7 @@ public class PlayerPlacement : MonoBehaviour
 
         if(destroyProgress >= 1)
         {
-            world.EditBlock(blockToPunch, 0);
+            world.BreakBlock(blockToPunch);
             ResetPunchBlock();
         }
 
