@@ -9,6 +9,7 @@ public class PlayerPlacement : MonoBehaviour
     [SerializeField] private Inventory inventory;
     [SerializeField] private Transform crackedBlock;
     [SerializeField] private Material[] crackedMaterials;
+    [SerializeField] private GameObject InventoryObj;
 
     private int layermask = 1 << 8;
     private World world;
@@ -21,12 +22,14 @@ public class PlayerPlacement : MonoBehaviour
 
     private void Start()
     {
+        world = World.Instance;
         crackedMesh = crackedBlock.GetComponent<MeshRenderer>();
     }
 
     private void Update()
     {
-        world = World.Instance;
+        if (InventoryObj.activeSelf)
+            return;
 
         if (Input.GetMouseButton(0))
             PunchBlock();

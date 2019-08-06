@@ -951,6 +951,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f11db94008bd6f488aafa24a208f503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &174888333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174888334}
+  m_Layer: 0
+  m_Name: Items
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &174888334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174888333}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &198396320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3750,7 +3780,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &882760349
 PrefabInstance:
@@ -4341,7 +4371,7 @@ Transform:
   m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &991791600 stripped
 RectTransform:
@@ -6509,6 +6539,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2eb91387762c3ae4c8defd820eedc971, type: 2}
   - {fileID: 2100000, guid: ecb8f2986e2f7924b874553730ff58d6, type: 2}
   - {fileID: 2100000, guid: f661d0dd6e63dc646912d83f7041c202, type: 2}
+  InventoryObj: {fileID: 1824829907}
 --- !u!114 &1391040672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10253,6 +10284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mat: {fileID: 2100000, guid: b0966c3d0e7e4f94ea671dc994a7b0ad, type: 2}
   PhysicsMat: {fileID: 13400000, guid: c23985ddba672e64b996a533b4ccdba3, type: 2}
+  ItemParent: {fileID: 174888334}
   BlockTypes:
   - {fileID: 11400000, guid: 3df0f4c377ca96d4580e75a736dd4bb9, type: 2}
   - {fileID: 11400000, guid: f0583a6c24c6b574084855ae24584d30, type: 2}

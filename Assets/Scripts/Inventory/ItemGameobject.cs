@@ -7,43 +7,45 @@ public class ItemGameobject : MonoBehaviour
     private Item item;
     private World world;
 
-    private MeshRenderer rendere;
-    private MeshFilter filter;
-    private Material mat;
-    private Mesh mesh;
-    private List<Vector3> verts = new List<Vector3>();
-    private List<int> tries = new List<int>();
-    private List<Vector2> uvs = new List<Vector2>();
-    private int vertexIndex = 0;
-
     public void Initialize(Vector3 pos, Item item)
     {
         world = World.Instance;
         this.item = item;
 
-        transform.position = pos + new Vector3(0.5f, 0.5f, 0.5f);
-        transform.parent = transform;
-        name = "Item";
-        tag = "Item";
-        gameObject.layer = 9;
+        // Setup
+        SetupGameObj(pos);
+        AddComponents();
+        AddColliders();
 
-        mat = world.Mat;
+        // Drawing
+        DrawCube();
+    }
+
+    private void SetupGameObj(Vector3 pos)
+    {
+        transform.position = pos + new Vector3(0.5f, 0.5f, 0.5f);
+        transform.parent = world.ItemParent;
+
+        gameObject.name = "Item";
+        gameObject.tag = "Item";
+        gameObject.layer = 9;
+    }
+
+    private void AddComponents()
+    {
         gameObject.AddComponent<CollisionObject>();
         gameObject.AddComponent<Rigidbody>();
+    }
 
+    private void AddColliders()
+    {
         var col = gameObject.AddComponent<BoxCollider>();
-        col.size = new Vector3(0.25f, 0.25f, 0.25f);
+        col.size = new Vector3(ItemObjData.Radius * 2f, ItemObjData.Radius * 2f, ItemObjData.Radius * 2f);
         col.material = world.PhysicsMat;
 
         var scol = gameObject.AddComponent<SphereCollider>();
-        scol.radius = 0.5f;
+        scol.radius = 0.75f;
         scol.isTrigger = true;
-
-        rendere = gameObject.AddComponent<MeshRenderer>();
-        filter = gameObject.AddComponent<MeshFilter>();
-        mesh = new Mesh();
-
-        DrawVoxel();
     }
 
     public Item GetItem()
@@ -58,45 +60,26 @@ public class ItemGameobject : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void DrawVoxel()
+    private void DrawCube()
     {
+        var mesh = new Mesh();
+        mesh.vertices = ItemObjData.Verts;
+
+        var uvs = new List<Vector2>();
         for (int face = 0; face < 6; face++)
         {
-            AddVerticies(face);
-            AddTriangles();
-            AddTexture(world.BlockTypes[item.BlockType].GetFaceTexture((Face)face));
-
-            vertexIndex += 4;
+            AddTexture(world.BlockTypes[item.BlockType].GetFaceTexture((Face)face), ref uvs);
         }
 
-        mesh.SetVertices(verts);
-        mesh.SetTriangles(tries.ToArray(), 0);
+        mesh.SetTriangles(ItemObjData.Tries, 0);
         mesh.uv = uvs.ToArray();
 
         mesh.RecalculateNormals();
-        filter.mesh = mesh;
-        rendere.material = mat;
+        gameObject.AddComponent<MeshFilter>().mesh = mesh;
+        gameObject.AddComponent<MeshRenderer>().material = world.Mat;
     }
 
-    private void AddVerticies(int face)
-    {
-        verts.Add((BlockData.Vertices[BlockData.Triangles[face, 0]] + new Vector3(-0.5f, -0.5f, -0.5f)) * 0.25f);
-        verts.Add((BlockData.Vertices[BlockData.Triangles[face, 1]] + new Vector3(-0.5f, -0.5f, -0.5f)) * 0.25f);
-        verts.Add((BlockData.Vertices[BlockData.Triangles[face, 2]] + new Vector3(-0.5f, -0.5f, -0.5f)) * 0.25f);
-        verts.Add((BlockData.Vertices[BlockData.Triangles[face, 3]] + new Vector3(-0.5f, -0.5f, -0.5f)) * 0.25f);
-    }
-
-    private void AddTriangles()
-    {
-        tries.Add(vertexIndex + 0);
-        tries.Add(vertexIndex + 1);
-        tries.Add(vertexIndex + 2);
-        tries.Add(vertexIndex + 2);
-        tries.Add(vertexIndex + 1);
-        tries.Add(vertexIndex + 3);
-    }
-
-    private void AddTexture(int atlasIndex)
+    private void AddTexture(int atlasIndex, ref List<Vector2> uvs)
     {
         float y = atlasIndex / BlockData.TextureAtlasBlockWidth;
         float x = atlasIndex - y * BlockData.TextureAtlasBlockWidth;
@@ -110,4 +93,53 @@ public class ItemGameobject : MonoBehaviour
         uvs.Add(new Vector2(x + BlockData.NormalizedTextureWidth, y));
         uvs.Add(new Vector2(x + BlockData.NormalizedTextureWidth, y + BlockData.NormalizedTextureWidth));
     }
+}
+
+class ItemObjData
+{
+    public static float Radius = 0.125f;
+
+    public static Vector3[] Verts = new Vector3[]
+    {
+            // Back face
+            new Vector3(-Radius, -Radius, -Radius),
+            new Vector3(-Radius, Radius, -Radius),
+            new Vector3(Radius, -Radius, -Radius),
+            new Vector3(Radius, Radius, -Radius),
+            // Front face
+            new Vector3(Radius, -Radius, Radius),
+            new Vector3(Radius, Radius, Radius),
+            new Vector3(-Radius, -Radius, Radius),
+            new Vector3(-Radius, Radius, Radius),
+            // Top face
+            new Vector3(-Radius, Radius, -Radius),
+            new Vector3(-Radius, Radius, Radius),
+            new Vector3(Radius, Radius, -Radius),
+            new Vector3(Radius, Radius, Radius),
+            // Buttom face
+            new Vector3(Radius, -Radius, -Radius),
+            new Vector3(Radius, -Radius, Radius),
+            new Vector3(-Radius, -Radius, -Radius),
+            new Vector3(-Radius, -Radius, Radius),
+            // Left face
+            new Vector3(-Radius, -Radius, Radius),
+            new Vector3(-Radius, Radius, Radius),
+            new Vector3(-Radius, -Radius, -Radius),
+            new Vector3(-Radius, Radius, -Radius),
+            // Right face
+            new Vector3(Radius, -Radius, -Radius),
+            new Vector3(Radius, Radius, -Radius),
+            new Vector3(Radius, -Radius, Radius),
+            new Vector3(Radius, Radius, Radius),
+    };
+
+    public static int[] Tries = new int[]
+    {
+          0, 1, 2, 2, 1, 3,
+          4, 5, 6, 6, 5, 7,
+          8, 9,10,10, 9,11,
+         12,13,14,14,13,15,
+         16,17,18,18,17,19,
+         20,21,22,22,21,23
+    };
 }

@@ -16,14 +16,14 @@ public static class BlockData
 
     public static readonly Vector3[] Vertices = new Vector3[]
     {
-        new Vector3(0,0,0),
-        new Vector3(1,0,0),
-        new Vector3(1,1,0),
-        new Vector3(0,1,0),
-        new Vector3(0,0,1),
-        new Vector3(1,0,1),
-        new Vector3(1,1,1),
-        new Vector3(0,1,1),
+        new Vector3(0,0,0), // 0
+        new Vector3(1,0,0), // 1
+        new Vector3(1,1,0), // 2
+        new Vector3(0,1,0), // 3 
+        new Vector3(0,0,1), // 4
+        new Vector3(1,0,1), // 5 
+        new Vector3(1,1,1), // 6
+        new Vector3(0,1,1), // 7 
     };
 
     public static readonly Vector3Int[] Neighbors = new Vector3Int[]
@@ -41,7 +41,7 @@ public static class BlockData
         { 0,3,1,2 }, // Back face
         { 5,6,4,7 }, // Front face
         { 3,7,2,6 }, // Top face
-        { 1,5,0,4 }, // Bottom face
+        { 1,5,0,4 }, // Buttom face
         { 4,7,0,3 }, // Left face
         { 1,2,5,6 }, // Right face
     };

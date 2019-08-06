@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.U2D;
+﻿using UnityEngine;
 
 public class World : MonoBehaviour
 {
@@ -11,6 +6,7 @@ public class World : MonoBehaviour
 
     public Material Mat;
     public PhysicMaterial PhysicsMat;
+    public Transform ItemParent;
     public Block[] BlockTypes;
 
     Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
