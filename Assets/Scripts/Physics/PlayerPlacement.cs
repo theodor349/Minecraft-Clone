@@ -61,7 +61,7 @@ public class PlayerPlacement : MonoBehaviour
 
             blockToPunch = block;
             crackedBlock.position = blockToPunch + new Vector3(.5f, .5f, .5f);
-            hardness = world.BlockTypes[world.GetBlockTypeAt(blockToPunch)].Hardness;
+            hardness = world.GetBlock(world.GetBlockTypeAt(blockToPunch)).Hardness;
         }
 
         destroyProgress += Time.deltaTime / hardness;

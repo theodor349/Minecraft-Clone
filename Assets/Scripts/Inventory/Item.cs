@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Item
 {
-    public byte BlockType;
+    public BlockType BlockType;
     public Sprite Icon;
     public int MaxStackSize;
     public Action<Item> ItemChanged;
@@ -23,10 +23,10 @@ public class Item
     }
 
     // Just initialize with a normal block
-    public Item(byte blockType, int amount)
+    public Item(BlockType blockType, int amount)
     {
         BlockType = blockType;
-        Icon = World.Instance.BlockTypes[blockType].Icon;
+        Icon = World.Instance.BlockTypes[(int)blockType].Icon;
         StackSize = amount;
         MaxStackSize = 64;
     }
