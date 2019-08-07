@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15014b64a085f1648bf7191510ed74ac, type: 3}
-  m_Name: Oak Planks
+  m_Name: Glass
   m_EditorClassIdentifier: 
-  Name: Oak Planks
-  Icon: {fileID: -2008716267967256451, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
+  Name: Glass
+  Icon: {fileID: -6496027776070713111, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
-  IsTransparent: 0
+  IsTransparent: 1
   Hardness: 1
-  Back: 4
-  Front: 4
-  Top: 4
-  Buttom: 4
-  Left: 4
-  Right: 4
+  Back: 3
+  Front: 3
+  Top: 3
+  Buttom: 3
+  Left: 3
+  Right: 3

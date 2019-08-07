@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves }
 public class World : MonoBehaviour
 {
     public static World Instance;
@@ -17,10 +19,41 @@ public class World : MonoBehaviour
             Debug.LogError("World: Multiple Worlds");
         World.Instance = this;
 
+        InitializeStaticObjcts();
+        OrganizeBlockTypes();
+    }
+
+    private void InitializeStaticObjcts()
+    {
         BlockData.Init();
     }
 
+    private void OrganizeBlockTypes()
+    {
+        var blockTypes = Enum.GetValues(typeof(BlockType));
+        var temp = new Block[blockTypes.Length];
+
+        for (int i = 0; i < blockTypes.Length; i++)
+        {
+            for (int n = 0; n < BlockTypes.Length; n++)
+            {
+                if (BlockTypes[n].name.Equals(Enum.GetName(typeof(BlockType), i)))
+                {
+                    temp[i] = BlockTypes[n];
+                    break;
+                }
+            }
+        }
+
+        BlockTypes = temp;
+    }
+
     void Start()
+    {
+        GenerateWorld();
+    }
+
+    private void GenerateWorld()
     {
         for (int x = 0; x < BlockData.WorldWidthInChunks; x++)
         {
@@ -133,22 +166,22 @@ public class World : MonoBehaviour
     }
 
     #region World Generation
-    public byte WorldGenGetBlockType(Vector3Int pos)
+    public BlockType WorldGenGetBlockType(Vector3Int pos)
     {
         int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
         if (pos.x == 6)
-            return 2;
+            return BlockType.Log;
 
         if (pos.y == terrainHeight)
-            return 4;
+            return BlockType.Grass;
         else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
-            return 3;
+            return BlockType.Dirt;
         else if (pos.y > terrainHeight)
-            return 0;
+            return BlockType.Air;
         else if (pos.y == 0)
-            return 1;
+            return BlockType.Bedrock;
         else
-            return 2;
+            return BlockType.Stone;
     }
 
     public static float Get2DPerline(Vector2 position, float offset, float scale)

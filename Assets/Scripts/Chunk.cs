@@ -74,7 +74,7 @@ public class Chunk
             {
                 for (int z = 0; z < BlockData.ChunkWidth; z++)
                 {
-                    blocks[x, y, z] = world.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
+                    blocks[x, y, z] = (byte)world.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
                 }
             }
         }
