@@ -63,12 +63,16 @@ public class PlayerPlacement : MonoBehaviour
             crackedBlock.position = blockToPunch + new Vector3(.5f, .5f, .5f);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             hardness = world.GetBlock(world.GetBlockTypeAt(blockToPunch)).Hardness;
             if (hardness == -1)
             {
                 ResetPunchBlock();
                 return;
             }
+=======
+            hardness = world.BlockTypes[world.GetBlockTypeAt(blockToPunch)].Hardness;
+>>>>>>> parent of 096b5bd... Block Breaking
 =======
             hardness = world.BlockTypes[world.GetBlockTypeAt(blockToPunch)].Hardness;
 >>>>>>> parent of 096b5bd... Block Breaking
