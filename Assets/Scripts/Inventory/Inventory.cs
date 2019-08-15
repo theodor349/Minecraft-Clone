@@ -74,11 +74,7 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
             if (PickUp(new Item(BlockType.Bedrock, 1)) == 0)
-=======
-            if (PickUp(new Item(2, 1)) == 0)
->>>>>>> parent of 096b5bd... Block Breaking
 =======
             if (PickUp(new Item(2, 1)) == 0)
 >>>>>>> parent of 096b5bd... Block Breaking
