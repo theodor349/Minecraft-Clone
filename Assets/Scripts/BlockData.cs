@@ -7,11 +7,17 @@ public static class BlockData
     public static readonly int WorldWidthInChunks = 4;// int.MaxValue; // Is equal to 1714 times earth circumference 
 
     public static readonly int TextureAtlasBlockWidth = 16;
+    public static readonly int TextureSizeInPixels = 320;
     public static float NormalizedTextureWidth;
+    public static float Padding;
 
     public static void Init()
     {
-        NormalizedTextureWidth = 1f / (float)TextureAtlasBlockWidth;
+        NormalizedTextureWidth = (1f - 0.2f) / TextureAtlasBlockWidth;
+        Padding = 0.2f / 32f;
+
+        Debug.Log(NormalizedTextureWidth);
+        Debug.Log(Padding);
     }
 
     public static readonly Vector3[] Vertices = new Vector3[]
