@@ -82,7 +82,7 @@ public class World : MonoBehaviour
         return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
     }
 
-    public byte GetBlockTypeAt(Vector3Int pos)
+    public BlockType GetBlockTypeAt(Vector3Int pos)
     {
         if (IsCoordOutsideWord(pos))
             return 0;
@@ -103,16 +103,19 @@ public class World : MonoBehaviour
 
     private void SpawnItem(Vector3Int pos)
     {
-        new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(GetBlockTypeAt(pos), 1));
+        var item = GetBlock(GetBlockTypeAt(pos)).Break(0);
+        if (item == (byte)BlockType.Air)
+            return;
+        new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(item, 1));
     }
 
-    public void EditBlock(Vector3Int pos, byte type)
+    public void EditBlock(Vector3Int pos, BlockType type)
     {
         if (IsCoordOutsideWord(pos))
             return;
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
-        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type);
+        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), (byte)type);
     }
 
     internal void UpdateChunk(Vector2Int pos)
@@ -137,6 +140,11 @@ public class World : MonoBehaviour
             return;
 
         chunks[pos.x, pos.y].RemoveCollision();
+    }
+
+    public Block GetBlock(BlockType type)
+    {
+        return BlockTypes[(byte)type];
     }
 
     public static bool IsCoordOutsideWord(Vector3Int pos)
