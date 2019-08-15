@@ -225,10 +225,6 @@ public class Chunk
         y *= BlockData.NormalizedTextureWidth;
         y = 1f - y - BlockData.NormalizedTextureWidth;
 
-        x += atlasIndex % BlockData.TextureAtlasBlockWidth * 2 * BlockData.Padding + BlockData.Padding;
-        //y += Mathf.FloorToInt(atlasIndex / BlockData.TextureAtlasBlockWidth) * 2 * BlockData.Padding + BlockData.Padding;
-        y += 0.007f;
-
         uvs.Add(new Vector2(x, y));
         uvs.Add(new Vector2(x, y + BlockData.NormalizedTextureWidth));
         uvs.Add(new Vector2(x + BlockData.NormalizedTextureWidth, y));
