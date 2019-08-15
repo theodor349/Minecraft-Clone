@@ -219,7 +219,7 @@ public class Chunk
     private void AddTexture(int atlasIndex)
     {
         float y = atlasIndex / BlockData.TextureAtlasBlockWidth;
-        float x = atlasIndex - (y * BlockData.TextureAtlasBlockWidth);
+        float x = atlasIndex - y * BlockData.TextureAtlasBlockWidth;
 
         x *= BlockData.NormalizedTextureWidth;
         y *= BlockData.NormalizedTextureWidth;
