@@ -85,9 +85,9 @@ public class Chunk
         return blocks[pos.x, pos.y, pos.z];
     }
 
-    public void EditBlock(Vector3Int pos, BlockType type)
+    public void EditBlock(Vector3Int pos, byte type)
     {
-        blocks[pos.x, pos.y, pos.z] = (byte)type;
+        blocks[pos.x, pos.y, pos.z] = type;
         Update();
 
         var edge = IsOnEdgeOfChunk(pos);

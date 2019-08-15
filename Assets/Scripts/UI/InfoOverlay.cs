@@ -24,7 +24,7 @@ public class InfoOverlay : MonoBehaviour
         }
         else
         {
-            BlockTypeText.text = "BlockType: " + World.GetBlock(World.GetBlockTypeAt(Player.HighlightBlockPos)).name;
+            BlockTypeText.text = "BlockType: " + World.BlockTypes[World.GetBlockTypeAt(Player.HighlightBlockPos)].name;
             BlockPosText.text = "Position: " + Player.HighlightBlockPos;
         }
     }

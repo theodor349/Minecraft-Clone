@@ -60,7 +60,7 @@ public class InventorySlot : MonoBehaviour
             return;
         }
 
-        if (item.Type != other.Type)
+        if (item.BlockType != other.BlockType)
         {
             cursor.PutItem(PlayerInventory.RemoveItem(Index));
             PlayerInventory.PutItem(other, Index);
