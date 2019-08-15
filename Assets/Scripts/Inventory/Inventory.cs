@@ -72,22 +72,10 @@ public class Inventory : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             if (PickUp(new Item(BlockType.Bedrock, 1)) == 0)
-=======
-            if (PickUp(new Item(2, 1)) == 0)
->>>>>>> parent of 096b5bd... Block Breaking
-=======
-            if (PickUp(new Item(2, 1)) == 0)
->>>>>>> parent of 096b5bd... Block Breaking
-=======
-            if (PickUp(new Item(2, 1)) == 0)
->>>>>>> parent of 096b5bd... Block Breaking
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.Q))
-            if (PickUp(new Item(3, 65)) == 0)
+            if (PickUp(new Item(BlockType.Stone, 65)) == 0)
                 Debug.Log("Nothing PickUp");
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -188,7 +176,7 @@ public class Inventory : MonoBehaviour
         if (inventory[i].MyItem == null)
             return item.MaxStackSize;
 
-        if (item.BlockType != inventory[i].MyItem.BlockType)
+        if (item.Type != inventory[i].MyItem.Type)
             return 0;
 
         return inventory[i].MyItem.MaxStackSize - inventory[i].MyItem.StackSize;

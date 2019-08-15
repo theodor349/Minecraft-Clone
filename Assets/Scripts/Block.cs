@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves }
 public enum Face { Back, Front, Top, Button, Left, Right };
 [CreateAssetMenu(fileName ="Voxels", menuName = "Minecraft/Voxels")]
 public class Block : ScriptableObject

@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves }
 public class World : MonoBehaviour
 {
     public static World Instance;
@@ -82,13 +81,18 @@ public class World : MonoBehaviour
         return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
     }
 
-    public byte GetBlockTypeAt(Vector3Int pos)
+    public Block GetBlock(BlockType type)
+    {
+        return BlockTypes[(byte)type];
+    }
+
+    public BlockType GetBlockTypeAt(Vector3Int pos)
     {
         if (IsCoordOutsideWord(pos))
             return 0;
 
         Vector2Int chunk = GetChunkCoord(pos);
-        return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
+        return (BlockType)chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
     }
 
     public void BreakBlock(Vector3Int pos)
@@ -106,7 +110,7 @@ public class World : MonoBehaviour
         new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(GetBlockTypeAt(pos), 1));
     }
 
-    public void EditBlock(Vector3Int pos, byte type)
+    public void EditBlock(Vector3Int pos, BlockType type)
     {
         if (IsCoordOutsideWord(pos))
             return;

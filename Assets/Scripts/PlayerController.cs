@@ -53,13 +53,6 @@ public class PlayerController : MonoBehaviour
         HandelInput();
         HandleColliders();
         transform.Translate(velocity);
-
-        if (Input.GetKeyDown(KeyCode.R))
-            if (inventory.PickUp(new Item(2, 11)) == 0)
-                Debug.Log("Nothing PickUp");
-        if (Input.GetKeyDown(KeyCode.Q))
-            if (inventory.PickUp(new Item(3, 65)) == 0)
-                Debug.Log("Nothing PickUp");
     }
 
     private void FixedUpdate()
@@ -101,7 +94,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             world.EditBlock(HighlightBlockPos, 0);
         else if (Input.GetMouseButtonDown(1))
-            world.EditBlock(PlacementBlockPos, (byte)(inventory.GetSlectedItem().BlockType));
+            world.EditBlock(PlacementBlockPos, inventory.GetSlectedItem().Type);
     }
 
     private void SetHighlightBlockPos()
