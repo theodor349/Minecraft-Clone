@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15014b64a085f1648bf7191510ed74ac, type: 3}
   m_Name: Dirt
   m_EditorClassIdentifier: 
-  Name: Dirt
+  Name: Grass
   Icon: {fileID: -851620116459470651, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
   IsTransparent: 0
   Hardness: 1
-  MiningLevel: 0
-  BreaksInto: 
   Back: 1
   Front: 1
   Top: 1

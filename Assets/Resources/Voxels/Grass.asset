@@ -17,8 +17,6 @@ MonoBehaviour:
   IsSolid: 1
   IsTransparent: 0
   Hardness: 1
-  MiningLevel: 0
-  BreaksInto: Dirt
   Back: 2
   Front: 2
   Top: 7

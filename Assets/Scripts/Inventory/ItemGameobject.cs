@@ -68,7 +68,7 @@ public class ItemGameobject : MonoBehaviour
         var uvs = new List<Vector2>();
         for (int face = 0; face < 6; face++)
         {
-            AddTexture(world.GetBlock(item.BlockType).GetFaceTexture((Face)face), ref uvs);
+            AddTexture(world.BlockTypes[item.BlockType].GetFaceTexture((Face)face), ref uvs);
         }
 
         mesh.SetTriangles(ItemObjData.Tries, 0);

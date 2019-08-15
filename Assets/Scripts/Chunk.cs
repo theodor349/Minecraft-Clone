@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
+public enum Direction { Center, North, South, West, East };
 public class Chunk
 {
     private int collisionPointers = 0;
@@ -79,9 +80,9 @@ public class Chunk
         }
     }
 
-    public BlockType GetBlockTypeAt(Vector3Int pos)
+    public byte GetBlockTypeAt(Vector3Int pos)
     {
-        return (BlockType)blocks[pos.x, pos.y, pos.z];
+        return blocks[pos.x, pos.y, pos.z];
     }
 
     public void EditBlock(Vector3Int pos, byte type)

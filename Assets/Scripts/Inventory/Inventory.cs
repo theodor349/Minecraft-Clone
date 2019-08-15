@@ -72,10 +72,14 @@ public class Inventory : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
+<<<<<<< HEAD
             if (PickUp(new Item(BlockType.Bedrock, 1)) == 0)
+=======
+            if (PickUp(new Item(2, 1)) == 0)
+>>>>>>> parent of 096b5bd... Block Breaking
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.Q))
-            if (PickUp(new Item(BlockType.Grass, 65)) == 0)
+            if (PickUp(new Item(3, 65)) == 0)
                 Debug.Log("Nothing PickUp");
 
         if (Input.GetKeyDown(KeyCode.E))
