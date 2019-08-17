@@ -8,10 +8,12 @@ public static class BlockData
 
     public static readonly int TextureAtlasBlockWidth = 16;
     public static float NormalizedTextureWidth;
+    public static float PaddingWidth;
 
     public static void Init()
     {
         NormalizedTextureWidth = 1f / (float)TextureAtlasBlockWidth;
+        PaddingWidth = NormalizedTextureWidth / 10f;
     }
 
     public static readonly Vector3[] Vertices = new Vector3[]

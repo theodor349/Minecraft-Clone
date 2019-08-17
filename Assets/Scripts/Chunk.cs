@@ -220,15 +220,16 @@ public class Chunk
     {
         float y = atlasIndex / BlockData.TextureAtlasBlockWidth;
         float x = atlasIndex - y * BlockData.TextureAtlasBlockWidth;
+        float pad = BlockData.PaddingWidth;
 
         x *= BlockData.NormalizedTextureWidth;
         y *= BlockData.NormalizedTextureWidth;
         y = 1f - y - BlockData.NormalizedTextureWidth;
 
-        uvs.Add(new Vector2(x, y));
-        uvs.Add(new Vector2(x, y + BlockData.NormalizedTextureWidth));
-        uvs.Add(new Vector2(x + BlockData.NormalizedTextureWidth, y));
-        uvs.Add(new Vector2(x + BlockData.NormalizedTextureWidth, y + BlockData.NormalizedTextureWidth));
+        uvs.Add(new Vector2(x + pad, y + pad));
+        uvs.Add(new Vector2(x + pad, y - pad + BlockData.NormalizedTextureWidth));
+        uvs.Add(new Vector2(x - pad + BlockData.NormalizedTextureWidth, y + pad));
+        uvs.Add(new Vector2(x - pad + BlockData.NormalizedTextureWidth, y - pad + BlockData.NormalizedTextureWidth));
     }
     #endregion
 
