@@ -8,6 +8,7 @@ public class World : MonoBehaviour
     public static World Instance;
 
     public Material Mat;
+    public Material TransparentMat;
     public PhysicMaterial PhysicsMat;
     public Transform ItemParent;
     public Block[] BlockTypes;

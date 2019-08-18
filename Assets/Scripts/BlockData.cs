@@ -4,7 +4,7 @@ public static class BlockData
 {
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 64; // 256; // Cant draw the full chunk border
-    public static readonly int WorldWidthInChunks = 4;// int.MaxValue; // Is equal to 1714 times earth circumference 
+    public static readonly int WorldWidthInChunks = 4; // int.MaxValue; // Is equal to 1714 times the circumference of earth 
 
     public static readonly int TextureAtlasBlockWidth = 16;
     public static float NormalizedTextureWidth;

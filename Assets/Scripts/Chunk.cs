@@ -20,8 +20,9 @@ public class Chunk
     private Material mat;
     private Mesh mesh;
     private List<Vector3> verts = new List<Vector3>();
-    private List<int> tries = new List<int>();
     private List<Vector2> uvs = new List<Vector2>();
+    private List<int> tries = new List<int>();
+    private List<int> transparentTries = new List<int>();
 
     private byte[,,] blocks;
 
@@ -31,7 +32,6 @@ public class Chunk
     public Chunk(World world, Vector2Int pos, bool drawOnInit = true)
     {
         this.world = world;
-        mat = world.Mat;
         chunkCoord = pos;
         chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, 0, pos.y * BlockData.ChunkWidth);
 
@@ -45,6 +45,12 @@ public class Chunk
         filter = obj.AddComponent<MeshFilter>();
         collider = obj.AddComponent<MeshCollider>();
         collider.enabled = false;
+
+        rendere.materials = new Material[]
+        {
+            world.Mat,
+            world.TransparentMat
+        };
 
         GenerateChunk();
         if (drawOnInit)
@@ -60,7 +66,7 @@ public class Chunk
         if (pos.y >= BlockData.ChunkHeight)
             return false;
 
-        return (blocks[pos.x, pos.y, pos.z] != 0);
+        return blocks[pos.x, pos.y, pos.z] != 0;
     }
 
     private void GenerateChunk()
@@ -81,6 +87,9 @@ public class Chunk
 
     public BlockType GetBlockTypeAt(Vector3Int pos)
     {
+        if (pos.x < 0 || pos.x >= BlockData.ChunkWidth || pos.z < 0 || pos.z >= BlockData.ChunkWidth || pos.y < 0 || pos.y >= BlockData.ChunkHeight)
+            return world.GetBlockTypeAt(pos + chunkPos);
+
         return (BlockType)blocks[pos.x, pos.y, pos.z];
     }
 
@@ -143,6 +152,7 @@ public class Chunk
     {
         ClearMesh();
         mesh = new Mesh();
+        mesh.subMeshCount = 2;
 
         for (int x = 0; x < BlockData.ChunkWidth; x++)
         {
@@ -157,13 +167,13 @@ public class Chunk
 
         mesh.SetVertices(verts);
         mesh.SetTriangles(tries.ToArray(), 0);
+        mesh.SetTriangles(transparentTries.ToArray(), 1);
         mesh.uv = uvs.ToArray();
 
         mesh.RecalculateNormals();
         filter.mesh = mesh;
         if (collisionPointers > 0)
             collider.sharedMesh = mesh;
-        rendere.material = mat;
         collider.sharedMesh = mesh;
     }
 
@@ -185,9 +195,11 @@ public class Chunk
             if (ShouldDrawVoxel(pos, face))
                 continue;
 
+            var block = world.BlockTypes[blocks[pos.x, pos.y, pos.z]];
+
             AddVerticies(pos, face);
-            AddTriangles();
-            AddTexture(world.BlockTypes[blocks[pos.x, pos.y, pos.z]].GetFaceTexture((Face)face));
+            AddTriangles(block.IsTransparent);
+            AddTexture(block.GetFaceTexture((Face)face));
 
             vertexIndex += 4;
         }
@@ -195,7 +207,11 @@ public class Chunk
 
     private bool ShouldDrawVoxel(Vector3Int pos, int face)
     {
-        return IsVoxelSolid(pos + BlockData.Neighbors[face]);
+        bool shoulDraw = IsVoxelSolid(pos + BlockData.Neighbors[face]);
+        if(shoulDraw )
+            shoulDraw = !world.GetBlock(GetBlockTypeAt(pos + BlockData.Neighbors[face])).IsTransparent;
+
+        return shoulDraw;
     }
 
     private void AddVerticies(Vector3Int pos, int face)
@@ -206,14 +222,26 @@ public class Chunk
         verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 3]]);
     }
 
-    private void AddTriangles()
+    private void AddTriangles(bool isTransparent)
     {
-        tries.Add(vertexIndex + 0);
-        tries.Add(vertexIndex + 1);
-        tries.Add(vertexIndex + 2);
-        tries.Add(vertexIndex + 2);
-        tries.Add(vertexIndex + 1);
-        tries.Add(vertexIndex + 3);
+        if (isTransparent)
+        {
+            transparentTries.Add(vertexIndex + 0);
+            transparentTries.Add(vertexIndex + 1);
+            transparentTries.Add(vertexIndex + 2);
+            transparentTries.Add(vertexIndex + 2);
+            transparentTries.Add(vertexIndex + 1);
+            transparentTries.Add(vertexIndex + 3);
+        }
+        else
+        {
+            tries.Add(vertexIndex + 0);
+            tries.Add(vertexIndex + 1);
+            tries.Add(vertexIndex + 2);
+            tries.Add(vertexIndex + 2);
+            tries.Add(vertexIndex + 1);
+            tries.Add(vertexIndex + 3);
+        }
     }
 
     private void AddTexture(int atlasIndex)

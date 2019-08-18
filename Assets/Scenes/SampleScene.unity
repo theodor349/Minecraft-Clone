@@ -10283,6 +10283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mat: {fileID: 2100000, guid: b0966c3d0e7e4f94ea671dc994a7b0ad, type: 2}
+  TransparentMat: {fileID: 2100000, guid: 0864dd71297cd0c4ebe949c28462e6d6, type: 2}
   PhysicsMat: {fileID: 13400000, guid: c23985ddba672e64b996a533b4ccdba3, type: 2}
   ItemParent: {fileID: 174888334}
   BlockTypes:
