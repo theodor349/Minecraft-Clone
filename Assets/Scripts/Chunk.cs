@@ -182,6 +182,7 @@ public class Chunk
         vertexIndex = 0;
         verts.Clear();
         tries.Clear();
+        transparentTries.Clear();
         uvs.Clear();
     }
 
