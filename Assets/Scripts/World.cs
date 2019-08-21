@@ -110,13 +110,13 @@ public class World : MonoBehaviour
         new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(item, 1));
     }
 
-    public void EditBlock(Vector3Int pos, BlockType type)
+    public void EditBlock(Vector3Int pos, BlockType type, Direction rotation = Direction.Nothing)
     {
         if (IsCoordOutsideWord(pos))
             return;
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
-        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type);
+        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type, rotation);
     }
 
     internal void UpdateChunk(Vector2Int pos)
@@ -188,7 +188,7 @@ public class World : MonoBehaviour
         else if (pos.y > terrainHeight)
             return BlockType.Air;
         else if (pos.y == 0)
-            return BlockType.Furnace;
+            return BlockType.Bedrock;
         else
             return BlockType.Stone;
     }

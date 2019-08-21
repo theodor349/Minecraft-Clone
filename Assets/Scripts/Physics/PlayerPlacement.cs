@@ -45,7 +45,50 @@ public class PlayerPlacement : MonoBehaviour
         if (inventory.GetSlectedItem() == null)
             return;
 
-        world.EditBlock(pos, inventory.GetSlectedItem().BlockType);
+        var item = inventory.GetSlectedItem();
+
+        Direction rotation = Direction.Nothing;
+        if (world.GetBlock((BlockType)item.BlockType).IsRotationSpecific)
+        {
+            Vector3Int dif = pos - transform.position.Floor();
+
+            if(dif.x > 0) // East
+            {
+                if(dif.z > 0) // North-East
+                {
+                    if (Mathf.Max(Mathf.Abs(dif.z), Mathf.Abs(dif.x)) == Mathf.Abs(dif.x))
+                        rotation = Direction.East;
+                    else
+                        rotation = Direction.South;
+                }
+                else // South-East
+                {
+                    if (Mathf.Max(Mathf.Abs(dif.z), Mathf.Abs(dif.x)) == Mathf.Abs(dif.x))
+                        rotation = Direction.East;
+                    else
+                        rotation = Direction.North;
+                }
+            }
+            else // West
+            {
+                if (dif.z > 0) // North-West
+                {
+                    if (Mathf.Max(Mathf.Abs(dif.z), Mathf.Abs(dif.x)) == Mathf.Abs(dif.x))
+                        rotation = Direction.West;
+                    else
+                        rotation = Direction.South;
+                }
+                else // South-West
+                {
+                    if (Mathf.Max(Mathf.Abs(dif.z), Mathf.Abs(dif.x)) == Mathf.Abs(dif.x))
+                        rotation = Direction.West;
+                    else
+                        rotation = Direction.North;
+                }
+            }
+        }
+
+        world.EditBlock(pos, item.BlockType, rotation);
         inventory.Take(1, inventory.SelectedSlot);
     }
 

@@ -94,7 +94,7 @@ public class Chunk
         return (BlockType)blocks[pos.x, pos.y, pos.z];
     }
 
-    public void EditBlock(Vector3Int pos, BlockType type, Direction rotaion = Direction.Nothing)
+    public void EditBlock(Vector3Int pos, BlockType type, Direction rotaion)
     {
         rotations.Remove(pos);
         if (rotaion != Direction.Nothing)
