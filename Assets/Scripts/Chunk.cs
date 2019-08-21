@@ -25,6 +25,7 @@ public class Chunk
     private List<int> transparentTries = new List<int>();
 
     private byte[,,] blocks;
+    private Dictionary<Vector3Int, Direction> rotations = new Dictionary<Vector3Int, Direction>();
 
     // Drawing
     private int vertexIndex = 0;
@@ -93,9 +94,13 @@ public class Chunk
         return (BlockType)blocks[pos.x, pos.y, pos.z];
     }
 
-    public void EditBlock(Vector3Int pos, byte type)
+    public void EditBlock(Vector3Int pos, BlockType type, Direction rotaion = Direction.Nothing)
     {
-        blocks[pos.x, pos.y, pos.z] = type;
+        rotations.Remove(pos);
+        if (rotaion != Direction.Nothing)
+            rotations.Add(pos, rotaion);
+
+        blocks[pos.x, pos.y, pos.z] = (byte)type;
         Update();
 
         var edge = IsOnEdgeOfChunk(pos);
@@ -139,7 +144,7 @@ public class Chunk
         else if (pos.z == BlockData.ChunkWidth - 1)
             return Direction.North;
 
-        return Direction.Center;
+        return Direction.Nothing;
     }
 
     #region Drawing
@@ -191,22 +196,26 @@ public class Chunk
         if (!IsVoxelSolid(pos))
             return;
 
+        var rotation = Direction.Nothing;
+        if (rotations.ContainsKey(pos))
+            rotation = rotations[pos];
+
         for (int face = 0; face < 6; face++)
         {
-            if (ShouldDrawVoxel(pos, face))
+            if (ShouldDrawVoxel(pos, face, rotation))
                 continue;
 
             var block = world.BlockTypes[blocks[pos.x, pos.y, pos.z]];
 
-            AddVerticies(pos, face);
+            AddVertices(pos, face, rotation);
             AddTriangles(block.IsTransparent);
-            AddTexture(block.GetFaceTexture((Face)face));
+            AddTexture(block.GetFaceTexture((Face)face, rotation));
 
             vertexIndex += 4;
         }
     }
 
-    private bool ShouldDrawVoxel(Vector3Int pos, int face)
+    private bool ShouldDrawVoxel(Vector3Int pos, int face, Direction rotation)
     {
         bool shoulDraw = IsVoxelSolid(pos + BlockData.Neighbors[face]);
         if(shoulDraw )
@@ -215,12 +224,63 @@ public class Chunk
         return shoulDraw;
     }
 
-    private void AddVerticies(Vector3Int pos, int face)
+    private void AddVertices(Vector3Int pos, int face, Direction rotation)
     {
-        verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 0]]);
-        verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 1]]);
-        verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 2]]);
-        verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 3]]);
+        if(face == 2 || face == 3)
+        {
+            verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 0]].Floor(), rotation, pos));
+            verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 1]].Floor(), rotation, pos));
+            verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 2]].Floor(), rotation, pos));
+            verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 3]].Floor(), rotation, pos));
+        }
+        else
+        {
+            verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 0]]);
+            verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 1]]);
+            verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 2]]);
+            verts.Add(pos + BlockData.Vertices[BlockData.Triangles[face, 3]]);
+        }
+    }
+
+    private Vector3Int RotateVertices(Vector3Int v, Direction rotation, Vector3Int pos)
+    {
+        if (rotation == Direction.North || rotation == Direction.Nothing)
+            return v;
+
+        Vector3 center = new Vector3(pos.x + 0.5f, pos.y, pos.z + 0.5f);
+
+        int times = 0;
+        if (rotation == Direction.South)
+            times = 2;
+        else if (rotation == Direction.West)
+            times = 1;
+        else if (rotation == Direction.East)
+            times = 3;
+
+        for (int i = 0; i < times; i++)
+        {
+            v = RotateVertex90(v, center);
+        }
+
+        return v;
+    }
+
+    private Vector3Int RotateVertex90(Vector3Int v, Vector3 center)
+    {
+        if (v.x < center.x)
+        {
+            if (v.z < center.z)
+                return new Vector3Int(v.x + 1, v.y, v.z);
+            else
+                return new Vector3Int(v.x, v.y, v.z - 1);
+        }
+        else
+        {
+            if (v.z < center.z)
+                return new Vector3Int(v.x, v.y, v.z + 1);
+            else
+                return new Vector3Int(v.x - 1, v.y, v.z);
+        }
     }
 
     private void AddTriangles(bool isTransparent)

@@ -2,7 +2,6 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves }
 public class World : MonoBehaviour
 {
     public static World Instance;
@@ -117,7 +116,7 @@ public class World : MonoBehaviour
             return;
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
-        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), (byte)type);
+        chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type);
     }
 
     internal void UpdateChunk(Vector2Int pos)
@@ -189,7 +188,7 @@ public class World : MonoBehaviour
         else if (pos.y > terrainHeight)
             return BlockType.Air;
         else if (pos.y == 0)
-            return BlockType.Bedrock;
+            return BlockType.Furnace;
         else
             return BlockType.Stone;
     }

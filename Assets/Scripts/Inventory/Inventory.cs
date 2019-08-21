@@ -75,7 +75,7 @@ public class Inventory : MonoBehaviour
             if (PickUp(new Item(BlockType.Glass, 64)) == 0)
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.Q))
-            if (PickUp(new Item(BlockType.Planks, 64)) == 0)
+            if (PickUp(new Item(BlockType.Furnace, 64)) == 0)
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.R))
             if (PickUp(new Item(BlockType.Bedrock, 64)) == 0)
