@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class ClickableObject : Selectable, IPointerClickHandler, ISubmitHandler
 {
@@ -18,7 +17,6 @@ public class ClickableObject : Selectable, IPointerClickHandler, ISubmitHandler
     [FormerlySerializedAs("RightClick")]
     [SerializeField]
     private ButtonClickedEvent m_RightClick = new ButtonClickedEvent();
-
 
     public void OnPointerClick(PointerEventData eventData)
     {

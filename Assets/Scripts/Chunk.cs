@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class Chunk
 {
@@ -37,7 +34,7 @@ public class Chunk
         chunkPos = new Vector3Int(pos.x * BlockData.ChunkWidth, 0, pos.y * BlockData.ChunkWidth);
 
         obj = new GameObject();
-        obj.layer = 8; 
+        obj.layer = 8;
         obj.transform.position = chunkPos;
         obj.transform.SetParent(world.transform);
         obj.name = "Chunk " + chunkCoord.x + "_" + chunkCoord.y;
@@ -80,7 +77,7 @@ public class Chunk
             {
                 for (int z = 0; z < BlockData.ChunkWidth; z++)
                 {
-                    blocks[x, y, z] = (byte)world.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
+                    blocks[x, y, z] = (byte)TerrainGenerator.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
                 }
             }
         }
@@ -104,9 +101,9 @@ public class Chunk
         Update();
 
         var edge = IsOnEdgeOfChunk(pos);
-        if(edge == Direction.North)
+        if (edge == Direction.North)
             world.UpdateChunk(chunkCoord + new Vector2Int(0, 1));
-        else if(edge == Direction.South)
+        else if (edge == Direction.South)
             world.UpdateChunk(chunkCoord + new Vector2Int(0, -1));
         else if (edge == Direction.West)
             world.UpdateChunk(chunkCoord + new Vector2Int(-1, 0));
@@ -148,6 +145,7 @@ public class Chunk
     }
 
     #region Drawing
+
     public void Draw()
     {
         DrawChunk();
@@ -218,7 +216,7 @@ public class Chunk
     private bool ShouldDrawVoxel(Vector3Int pos, int face, Direction rotation)
     {
         bool shoulDraw = IsVoxelSolid(pos + BlockData.Neighbors[face]);
-        if(shoulDraw )
+        if (shoulDraw)
             shoulDraw = !world.GetBlock(GetBlockTypeAt(pos + BlockData.Neighbors[face])).IsTransparent;
 
         return shoulDraw;
@@ -226,7 +224,7 @@ public class Chunk
 
     private void AddVertices(Vector3Int pos, int face, Direction rotation)
     {
-        if(face == 2 || face == 3)
+        if (face == 2 || face == 3)
         {
             verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 0]].Floor(), rotation, pos));
             verts.Add(RotateVertices(pos + BlockData.Vertices[BlockData.Triangles[face, 1]].Floor(), rotation, pos));
@@ -320,6 +318,6 @@ public class Chunk
         uvs.Add(new Vector2(x - pad + BlockData.NormalizedTextureWidth, y + pad));
         uvs.Add(new Vector2(x - pad + BlockData.NormalizedTextureWidth, y - pad + BlockData.NormalizedTextureWidth));
     }
-    #endregion
 
+    #endregion Drawing
 }

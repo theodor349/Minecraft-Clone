@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -130,11 +128,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool CanPickUp(Item item)
-    {
-        return GetFreeSlotIndex(item) != -1;
-    }
-
     public int PickUp(Item item)
     {
         int i = GetFreeSlotIndex(item);
@@ -142,12 +135,12 @@ public class Inventory : MonoBehaviour
             return 0;
 
         int amount = Accepts(item, i);
-        if(amount >= item.StackSize)
+        if (amount >= item.StackSize)
         {
             PutItem(item, i);
             return item.StackSize;
         }
-        else if(amount < item.StackSize)
+        else if (amount < item.StackSize)
         {
             PutItem(Item.Copy(item, amount), i);
             item.StackSize -= amount;
@@ -158,11 +151,6 @@ public class Inventory : MonoBehaviour
             PutItem(Item.Copy(item, amount), i);
             return amount;
         }
-    }
-
-    public Item GetSlectedItem()
-    {
-        return inventory[SelectedSlot].MyItem;
     }
 
     private int GetFreeSlotIndex(Item item)
@@ -191,6 +179,21 @@ public class Inventory : MonoBehaviour
         return inventory[i].MyItem.MaxStackSize - inventory[i].MyItem.StackSize;
     }
 
+    public bool CanPickUp(Item item)
+    {
+        return GetFreeSlotIndex(item) != -1;
+    }
+
+    public Item ReadItem(int i)
+    {
+        return inventory[i].MyItem;
+    }
+
+    public Item GetSlectedItem()
+    {
+        return inventory[SelectedSlot].MyItem;
+    }
+
     public void PutItem(Item item, int i)
     {
         if (inventory[i].MyItem == null)
@@ -199,7 +202,6 @@ public class Inventory : MonoBehaviour
         }
         else
             inventory[i].MyItem.StackSize += item.StackSize;
-
     }
 
     public Item RemoveItem(int i)
@@ -215,14 +217,9 @@ public class Inventory : MonoBehaviour
         Item item = Item.Copy(ReadItem(i), amount);
         ReadItem(i).StackSize -= amount;
 
-        if(ReadItem(i).StackSize == 0)
+        if (ReadItem(i).StackSize == 0)
             inventory[i].RemoveItem();
 
         return item;
-    }
-
-    public Item ReadItem(int i)
-    {
-        return inventory[i].MyItem;
     }
 }

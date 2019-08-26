@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerPlacement : MonoBehaviour
 {
@@ -52,9 +50,9 @@ public class PlayerPlacement : MonoBehaviour
         {
             Vector3Int dif = pos - transform.position.Floor();
 
-            if(dif.x > 0) // East
+            if (dif.x > 0) // East
             {
-                if(dif.z > 0) // North-East
+                if (dif.z > 0) // North-East
                 {
                     if (Mathf.Max(Mathf.Abs(dif.z), Mathf.Abs(dif.x)) == Mathf.Abs(dif.x))
                         rotation = Direction.East;
@@ -109,7 +107,7 @@ public class PlayerPlacement : MonoBehaviour
 
         destroyProgress += Time.deltaTime / hardness;
 
-        if(destroyProgress >= 1)
+        if (destroyProgress >= 1)
         {
             world.BreakBlock(blockToPunch);
             ResetPunchBlock();
@@ -128,7 +126,7 @@ public class PlayerPlacement : MonoBehaviour
     public Vector3Int BlockDestroy()
     {
         RaycastHit hit;
-        if(Physics.Raycast(camPos.position, camPos.forward, out hit, range, layermask))
+        if (Physics.Raycast(camPos.position, camPos.forward, out hit, range, layermask))
         {
             return (hit.point - hit.normal * 0.5f).Floor();
         }
@@ -146,5 +144,4 @@ public class PlayerPlacement : MonoBehaviour
 
         return new Vector3Int(-1, -1, -1);
     }
-
 }

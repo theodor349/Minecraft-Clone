@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves, Furnace }
+
 public enum Direction { Nothing, North, South, West, East };
+
 public enum Face { Back, Front, Top, Button, Left, Right };
 
-[CreateAssetMenu(fileName ="Voxels", menuName = "Minecraft/Voxels")]
+[CreateAssetMenu(fileName = "Voxels", menuName = "Minecraft/Voxels")]
 public class Block : ScriptableObject
 {
     public string Name;
@@ -22,6 +21,7 @@ public class Block : ScriptableObject
 
     [Header("Face Textures")]
     public int Back;
+
     public int Front;
     public int Top;
     public int Buttom;
@@ -36,16 +36,22 @@ public class Block : ScriptableObject
             {
                 case Face.Back:
                     return Back;
+
                 case Face.Front:
                     return Front;
+
                 case Face.Top:
                     return Top;
+
                 case Face.Button:
                     return Buttom;
+
                 case Face.Left:
                     return Left;
+
                 case Face.Right:
                     return Right;
+
                 default:
                     Debug.LogError("GetFaceTexture(): " + face.ToString() + " is not indexed ");
                     return Left;
@@ -59,16 +65,22 @@ public class Block : ScriptableObject
                 {
                     case Face.Back:
                         return Front;
+
                     case Face.Front:
                         return Back;
+
                     case Face.Top:
                         return Top;
+
                     case Face.Button:
                         return Buttom;
+
                     case Face.Left:
                         return Right;
+
                     case Face.Right:
                         return Left;
+
                     default:
                         Debug.LogError("GetFaceTexture(): " + face.ToString() + " is not indexed ");
                         return Left;
@@ -78,16 +90,22 @@ public class Block : ScriptableObject
                 {
                     case Face.Back:
                         return Back;
+
                     case Face.Front:
                         return Front;
+
                     case Face.Top:
                         return Top;
+
                     case Face.Button:
                         return Buttom;
+
                     case Face.Left:
                         return Left;
+
                     case Face.Right:
                         return Right;
+
                     default:
                         Debug.LogError("GetFaceTexture(): " + face.ToString() + " is not indexed ");
                         return Left;
@@ -97,16 +115,22 @@ public class Block : ScriptableObject
                 {
                     case Face.Back:
                         return Right;
+
                     case Face.Front:
                         return Left;
+
                     case Face.Top:
                         return Top;
+
                     case Face.Button:
                         return Buttom;
+
                     case Face.Left:
                         return Back;
+
                     case Face.Right:
                         return Front;
+
                     default:
                         Debug.LogError("GetFaceTexture(): " + face.ToString() + " is not indexed ");
                         return Left;
@@ -116,16 +140,22 @@ public class Block : ScriptableObject
                 {
                     case Face.Back:
                         return Left;
+
                     case Face.Front:
                         return Right;
+
                     case Face.Top:
                         return Top;
+
                     case Face.Button:
                         return Buttom;
+
                     case Face.Left:
                         return Front;
+
                     case Face.Right:
                         return Back;
+
                     default:
                         Debug.LogError("GetFaceTexture(): " + face.ToString() + " is not indexed ");
                         return Left;
@@ -151,5 +181,4 @@ public class Block : ScriptableObject
             return type;
         }
     }
-
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MyCollider : MonoBehaviour
 {
@@ -170,6 +168,5 @@ public class MyCollider : MonoBehaviour
         //Gizmos.DrawSphere(transform.position + points[7], 0.1f);
         //Gizmos.DrawSphere(transform.position + points[10], 0.1f);
         //Gizmos.DrawSphere(transform.position + points[11], 0.1f);
-
     }
 }

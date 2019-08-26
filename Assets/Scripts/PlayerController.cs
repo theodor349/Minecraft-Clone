@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MyCollider))]
@@ -8,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float MoveVelocity = 4.317f;
+
     public float SprintVelocity = 5.612f;
     public float SneakVelocity = 1.295f;
     public float MaxFallVelocity = 78.4f;
@@ -16,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Look")]
     public float MouseSensativity = 1f;
+
     public Transform cam;
     public int Range = 7;
     public Vector3Int HighlightBlockPos = new Vector3Int(-1, -1, -1);
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private World world;
     private MyCollider col;
+
     [SerializeField]
     private Inventory inventory;
 
@@ -35,7 +36,6 @@ public class PlayerController : MonoBehaviour
     private float YRotation = 0f;
     private bool isGrounded;
     private bool jumpRequest;
-
 
     private void Start()
     {
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetHighlightBlockPos()
     {
-        HighlightBlockPos = new Vector3Int(-1,-1,-1);
+        HighlightBlockPos = new Vector3Int(-1, -1, -1);
 
         Vector3 dir = cam.forward;
         List<float> ts = new List<float>();
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         float y = cam.position.y % 1;
         float z = cam.position.z % 1;
 
-        if(dir.x != 0)
+        if (dir.x != 0)
             for (float r = 1; r < Range; r++)
             {
                 if (dir.x > 0)
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
                 else
                     ts.Add((-r - x + 1) / dir.x + 0.01f);
             }
-        if(dir.y != 0)
+        if (dir.y != 0)
             for (float r = 1; r < Range; r++)
             {
                 if (dir.y > 0)
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 else
                     ts.Add((-r - y + 1) / dir.y + 0.01f);
             }
-        if(dir.z != 0)
+        if (dir.z != 0)
             for (float r = 1; r < Range; r++)
             {
                 if (dir.z > 0)
@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-                if (z > 0.5f)
+            if (z > 0.5f)
                 PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y, HighlightBlockPos.z + 1);
             else
                 PlacementBlockPos = new Vector3Int(HighlightBlockPos.x, HighlightBlockPos.y, HighlightBlockPos.z - 1);
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
     private void HandleColliders()
     {
         Vector3 v = velocity.RotateAroundY(transform.rotation.eulerAngles.y);
-        if(velocity.z > 0)
+        if (velocity.z > 0)
         {
             if (col.Forward(v))
                 velocity.z = 0;
@@ -260,5 +260,4 @@ public class PlayerController : MonoBehaviour
         velocity = input;
         velocity *= Time.deltaTime;
     }
-
 }

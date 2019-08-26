@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryCursor : MonoBehaviour
@@ -34,7 +32,6 @@ public class InventoryCursor : MonoBehaviour
             return;
 
         isActive = Inventory.activeSelf;
-
     }
 
     private void UpdateVisuals()
@@ -50,6 +47,20 @@ public class InventoryCursor : MonoBehaviour
             MyImage.color = new Color(0f, 0f, 0f, 0f);
             MyText.text = "";
         }
+    }
+
+    public Item ReadItem()
+    {
+        return item;
+    }
+
+    public Item GetItem()
+    {
+        Item i = item;
+        item = null;
+
+        UpdateVisuals();
+        return i;
     }
 
     public void PutItem(Item item)
@@ -69,19 +80,5 @@ public class InventoryCursor : MonoBehaviour
 
         UpdateVisuals();
         return i;
-    }
-
-    public Item GetItem()
-    {
-        Item i = item;
-        item = null;
-
-        UpdateVisuals();
-        return i;
-    }
-
-    public Item ReadItem()
-    {
-        return item;
     }
 }

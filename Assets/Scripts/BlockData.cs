@@ -4,7 +4,7 @@ public static class BlockData
 {
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 256; // 256; // Cant draw the full chunk border
-    public static readonly int WorldWidthInChunks = 2; // int.MaxValue; // Is equal to 1714 times the circumference of earth 
+    public static readonly int WorldWidthInChunks = 2; // int.MaxValue; // Is equal to 1714 times the circumference of earth
 
     public static readonly int TextureAtlasBlockWidth = 16;
     public static float NormalizedTextureWidth;
@@ -21,11 +21,11 @@ public static class BlockData
         new Vector3(0,0,0), // 0
         new Vector3(1,0,0), // 1
         new Vector3(1,1,0), // 2
-        new Vector3(0,1,0), // 3 
+        new Vector3(0,1,0), // 3
         new Vector3(0,0,1), // 4
-        new Vector3(1,0,1), // 5 
+        new Vector3(1,0,1), // 5
         new Vector3(1,1,1), // 6
-        new Vector3(0,1,1), // 7 
+        new Vector3(0,1,1), // 7
     };
 
     public static readonly Vector3Int[] Neighbors = new Vector3Int[]
@@ -44,7 +44,7 @@ public static class BlockData
     //    { 0, 1, 2, 3, 4, 5 }, // North
     //    { 1, 0, 2, 3, 5, 4 }, // South
     //    { 0, 1, 2, 3, 4, 5 }, // Top
-    //    { 0, 1, 2, 3, 4, 5 }, // Buttom
+    //    { 0, 1, 2, 3, 4, 5 }, // Bottom
     //    { 5, 5, 2, 3, 5, 5 }, // West
     //    { 0, 0, 2, 3, 0, 0 }, // East
     //};
@@ -54,7 +54,7 @@ public static class BlockData
         { 0,3,1,2 }, // Back face
         { 5,6,4,7 }, // Front face
         { 3,7,2,6 }, // Top face
-        { 1,5,0,4 }, // Buttom face
+        { 1,5,0,4 }, // Bottom face
         { 4,7,0,3 }, // Left face
         { 1,2,5,6 }, // Right face
     };
@@ -66,6 +66,4 @@ public static class BlockData
         new Vector2(1,0),
         new Vector2(1,1),
     };
-
-
 }

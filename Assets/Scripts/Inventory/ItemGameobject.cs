@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGameobject : MonoBehaviour
@@ -62,8 +61,10 @@ public class ItemGameobject : MonoBehaviour
 
     private void DrawCube()
     {
-        var mesh = new Mesh();
-        mesh.vertices = ItemObjData.Verts;
+        var mesh = new Mesh
+        {
+            vertices = ItemObjData.Verts
+        };
 
         var uvs = new List<Vector2>();
         for (int face = 0; face < 6; face++)
@@ -96,7 +97,7 @@ public class ItemGameobject : MonoBehaviour
     }
 }
 
-class ItemObjData
+internal static class ItemObjData
 {
     public static float Radius = 0.125f;
 
@@ -117,7 +118,7 @@ class ItemObjData
             new Vector3(-Radius, Radius, Radius),
             new Vector3(Radius, Radius, -Radius),
             new Vector3(Radius, Radius, Radius),
-            // Buttom face
+            // Bottom face
             new Vector3(Radius, -Radius, -Radius),
             new Vector3(Radius, -Radius, Radius),
             new Vector3(-Radius, -Radius, -Radius),

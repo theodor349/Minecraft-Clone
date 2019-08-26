@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Item
@@ -11,13 +9,14 @@ public class Item
     public Action<Item> ItemChanged;
 
     private int stackSize;
+
     public int StackSize {
         get {
             return stackSize;
         }
         set {
             stackSize = value;
-            if(ItemChanged != null)
+            if (ItemChanged != null)
                 ItemChanged(this);
         }
     }

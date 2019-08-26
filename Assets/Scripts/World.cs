@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class World : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class World : MonoBehaviour
     public Transform ItemParent;
     public Block[] BlockTypes;
 
-    Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
+    private Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
 
     private void Awake()
     {
@@ -49,7 +48,7 @@ public class World : MonoBehaviour
         BlockTypes = temp;
     }
 
-    void Start()
+    private void Start()
     {
         GenerateWorld();
     }
@@ -72,25 +71,6 @@ public class World : MonoBehaviour
             }
         }
     }
-    
-    public bool IsVoxelSolid(Vector3Int pos)
-    {
-        var chunkCoord = new Vector2Int(Mathf.FloorToInt(((float) pos.x) / BlockData.ChunkWidth), Mathf.FloorToInt(((float)pos.z) / BlockData.ChunkWidth));
-
-        if (chunkCoord.x < 0 || chunkCoord.x >= BlockData.WorldWidthInChunks || chunkCoord.y < 0 || chunkCoord.y >= BlockData.WorldWidthInChunks)
-            return false;
-
-        return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
-    }
-
-    public BlockType GetBlockTypeAt(Vector3Int pos)
-    {
-        if (IsCoordOutsideWord(pos))
-            return 0;
-
-        Vector2Int chunk = GetChunkCoord(pos);
-        return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
-    }
 
     public void BreakBlock(Vector3Int pos)
     {
@@ -102,14 +82,6 @@ public class World : MonoBehaviour
         EditBlock(pos, 0);
     }
 
-    private void SpawnItem(Vector3Int pos)
-    {
-        var item = GetBlock(GetBlockTypeAt(pos)).Break(0);
-        if (item == (byte)BlockType.Air)
-            return;
-        new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(item, 1));
-    }
-
     public void EditBlock(Vector3Int pos, BlockType type, Direction rotation = Direction.Nothing)
     {
         if (IsCoordOutsideWord(pos))
@@ -117,6 +89,14 @@ public class World : MonoBehaviour
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
         chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type, rotation);
+    }
+
+    private void SpawnItem(Vector3Int pos)
+    {
+        var item = GetBlock(GetBlockTypeAt(pos)).Break(0);
+        if (item == (byte)BlockType.Air)
+            return;
+        new GameObject().AddComponent<ItemGameobject>().Initialize(pos, new Item(item, 1));
     }
 
     internal void UpdateChunk(Vector2Int pos)
@@ -143,11 +123,6 @@ public class World : MonoBehaviour
         chunks[pos.x, pos.y].RemoveCollision();
     }
 
-    public Block GetBlock(BlockType type)
-    {
-        return BlockTypes[(byte)type];
-    }
-
     public static bool IsCoordOutsideWord(Vector3Int pos)
     {
         int worldWidth = BlockData.WorldWidthInChunks * BlockData.ChunkWidth;
@@ -159,14 +134,19 @@ public class World : MonoBehaviour
         return (pos.x < 0 || pos.x >= BlockData.WorldWidthInChunks || pos.y < 0 || pos.y >= BlockData.WorldWidthInChunks);
     }
 
+    public bool IsVoxelSolid(Vector3Int pos)
+    {
+        var chunkCoord = new Vector2Int(Mathf.FloorToInt(((float)pos.x) / BlockData.ChunkWidth), Mathf.FloorToInt(((float)pos.z) / BlockData.ChunkWidth));
+
+        if (chunkCoord.x < 0 || chunkCoord.x >= BlockData.WorldWidthInChunks || chunkCoord.y < 0 || chunkCoord.y >= BlockData.WorldWidthInChunks)
+            return false;
+
+        return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
+    }
+
     public static Vector2Int GetChunkCoord(Vector3Int pos)
     {
         return new Vector2(pos.x / BlockData.ChunkWidth, pos.z / BlockData.ChunkWidth).Floor();
-    }
-
-    public static Vector3Int GetPosInChunk(Vector3Int pos)
-    {
-        return new Vector3Int((int)pos.x / BlockData.ChunkWidth, pos.y, pos.z / BlockData.ChunkWidth);
     }
 
     public static Vector3Int GetBlockPosInChunk(Vector3Int pos)
@@ -174,50 +154,17 @@ public class World : MonoBehaviour
         return new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth);
     }
 
-    #region World Generation
-    public BlockType WorldGenGetBlockType(Vector3Int pos)
+    public Block GetBlock(BlockType type)
     {
-        int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
-        if (pos.x == 6)
-            return BlockType.Log;
-
-        if (pos.y == terrainHeight)
-            return BlockType.Grass;
-        else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
-            return BlockType.Dirt;
-        else if (pos.y > terrainHeight)
-            return BlockType.Air;
-        else if (pos.y == 0)
-            return BlockType.Bedrock;
-        else
-            return BlockType.Stone;
+        return BlockTypes[(byte)type];
     }
 
-    public static float Get2DPerline(Vector2 position, float offset, float scale)
+    public BlockType GetBlockTypeAt(Vector3Int pos)
     {
-        return Mathf.PerlinNoise(
-            (position.x + 0.1f) / BlockData.ChunkWidth * scale + offset,
-            (position.y + 0.1f) / BlockData.ChunkWidth * scale + offset
-            );
+        if (IsCoordOutsideWord(pos))
+            return 0;
+
+        Vector2Int chunk = GetChunkCoord(pos);
+        return chunks[chunk.x, chunk.y].GetBlockTypeAt(GetBlockPosInChunk(pos));
     }
-
-    public static bool Get3DPerline(Vector3 position, float offset, float scale, float threshold)
-    {
-        float x = (position.x + offset + 0.1f) * scale;
-        float y = (position.y + offset + 0.1f) * scale;
-        float z = (position.z + offset + 0.1f) * scale;
-
-        float AB = Mathf.PerlinNoise(x, y);
-        float BC = Mathf.PerlinNoise(y, z);
-        float AC = Mathf.PerlinNoise(x, z);
-        float BA = Mathf.PerlinNoise(y, x);
-        float CB = Mathf.PerlinNoise(z, y);
-        float CA = Mathf.PerlinNoise(z, x);
-
-        if ((AB + BC + AC + BA + CB + CA) / 6f > threshold)
-            return true;
-        else
-            return false;
-    }
-    #endregion
 }

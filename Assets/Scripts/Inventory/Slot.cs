@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class Slot 
+public class Slot
 {
     private Item myItem;
+
     public Item MyItem {
         get {
             return myItem;
@@ -18,6 +17,7 @@ public class Slot
             SlotChanged(value);
         }
     }
+
     public Action<Item> SlotChanged;
 
     public Slot()
