@@ -50,9 +50,13 @@ public class Chunk
             world.TransparentMat
         };
 
-        GenerateChunk();
         if (drawOnInit)
             DrawChunk();
+    }
+
+    public void Generate()
+    {
+        GenerateChunk();
     }
 
     public bool IsVoxelSolid(Vector3Int pos)
@@ -77,7 +81,7 @@ public class Chunk
             {
                 for (int z = 0; z < BlockData.ChunkWidth; z++)
                 {
-                    blocks[x, y, z] = (byte)TerrainGenerator.WorldGenGetBlockType(new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
+                    blocks[x, y, z] = (byte)TerrainGenerator.WorldGenGetBlockType(world, new Vector3Int(x + chunkPos.x, y, z + chunkPos.z));
                 }
             }
         }
