@@ -2,41 +2,24 @@
 
 public static class TerrainGenerator
 {
-    public static BlockType WorldGenGetBlockType(World world, Vector3Int pos)
+    public static BlockType WorldGenGetBlockType(Vector3Int pos)
     {
-        int terrainHeight = Mathf.FloorToInt(Generation.Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.1f) * 32) + 8;
-        if (pos.y == 0)
-            return BlockType.Bedrock;
+        int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
+        if (pos.x == 6)
+            return BlockType.Log;
+
+        if (pos.y == terrainHeight)
+            return BlockType.Grass;
+        else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
+            return BlockType.Dirt;
         else if (pos.y > terrainHeight)
             return BlockType.Air;
-
-        BlockType result;
-        // First Pass
-        if (pos.y == terrainHeight)
-            result = BlockType.Grass;
-        else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
-            result = BlockType.Dirt;
+        else if (pos.y == 0)
+            return BlockType.Bedrock;
         else
-            result = BlockType.Stone;
-
-        // Tree Pass
-        if (pos.y == terrainHeight)
-        {
-            if (Generation.Get2DPerline(new Vector2(pos.x, pos.z), 0.5f, 0.5f) > 0.5f)
-            {
-                if (Random.Range(0f, 1f) > 0.95f)
-                {
-                    new Tree().BuildStructure(world, pos, pos.y);
-                }
-            }
-        }
-
-        return result;
+            return BlockType.Stone;
     }
-}
 
-public static class Generation
-{
     public static float Get2DPerline(Vector2 position, float offset, float scale)
     {
         return Mathf.PerlinNoise(

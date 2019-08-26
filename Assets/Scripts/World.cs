@@ -67,14 +67,6 @@ public class World : MonoBehaviour
         {
             for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
             {
-                chunks[x, z].Generate();
-            }
-        }
-
-        for (int x = 0; x < BlockData.WorldWidthInChunks; x++)
-        {
-            for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
-            {
                 chunks[x, z].Draw();
             }
         }
@@ -150,21 +142,6 @@ public class World : MonoBehaviour
             return false;
 
         return chunks[chunkCoord.x, chunkCoord.y].IsVoxelSolid(new Vector3Int(pos.x % BlockData.ChunkWidth, pos.y, pos.z % BlockData.ChunkWidth));
-    }
-
-    public int GetGroundHeight(Vector3Int pos)
-    {
-        if (IsCoordOutsideWord(pos))
-            return BlockData.ChunkHeight;
-
-        for (int i = 0; i < BlockData.ChunkHeight; i++)
-        {
-            var block = GetBlockTypeAt(new Vector3Int(pos.x, BlockData.ChunkHeight - i, pos.z));
-            if (block != BlockType.Air && block != BlockType.Log && block != BlockType.Leaves)
-                return BlockData.ChunkHeight - i;
-        }
-
-        return BlockData.ChunkHeight;
     }
 
     public static Vector2Int GetChunkCoord(Vector3Int pos)
