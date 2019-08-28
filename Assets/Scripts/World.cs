@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class World : MonoBehaviour
@@ -12,6 +13,7 @@ public class World : MonoBehaviour
     public Block[] BlockTypes;
 
     private Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
+    private Queue<IConstruction> constructions = new Queue<IConstruction>();
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class World : MonoBehaviour
     private void InitializeStaticObjcts()
     {
         BlockData.Init();
+        Structures.Init();
     }
 
     private void OrganizeBlockTypes()
@@ -63,6 +66,11 @@ public class World : MonoBehaviour
             }
         }
 
+        while(constructions.Count > 0)
+        {
+            constructions.Dequeue().Construct();
+        }
+
         for (int x = 0; x < BlockData.WorldWidthInChunks; x++)
         {
             for (int z = 0; z < BlockData.WorldWidthInChunks; z++)
@@ -89,6 +97,11 @@ public class World : MonoBehaviour
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
         chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type, rotation);
+    }
+
+    public void AddContruction(IConstruction construction)
+    {
+        constructions.Enqueue(construction);
     }
 
     private void SpawnItem(Vector3Int pos)

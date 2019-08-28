@@ -2,14 +2,23 @@
 
 public static class TerrainGenerator
 {
-    public static BlockType WorldGenGetBlockType(Vector3Int pos)
+    public static BlockType WorldGenGetBlockType(World world, Vector3Int pos)
     {
         int terrainHeight = Mathf.FloorToInt(Get2DPerline(new Vector2(pos.x, pos.z), 0, 0.5f) * 32) + 8;
-        if (pos.x == 6)
-            return BlockType.Log;
 
         if (pos.y == terrainHeight)
+        {
+            if (Random.value > 0.9f)
+            {
+                if (Random.value > 0.97f)
+                {
+                    world.AddContruction(new StructureConstruction(world, new Vector3Int(pos.x, pos.y + 1, pos.z), Structure.Tree));
+                }
+                return BlockType.Bedrock;
+            }
+
             return BlockType.Grass;
+        }
         else if (pos.y < terrainHeight && pos.y > terrainHeight - 4)
             return BlockType.Dirt;
         else if (pos.y > terrainHeight)

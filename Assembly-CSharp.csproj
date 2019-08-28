@@ -67,6 +67,9 @@
     <Compile Include="Assets\Scripts\Physics\MyCollider.cs" />
     <Compile Include="Assets\Scripts\Physics\PlayerPlacement.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\TerrainGen\IConstruction.cs" />
+    <Compile Include="Assets\Scripts\TerrainGen\Structures\IStructure.cs" />
+    <Compile Include="Assets\Scripts\TerrainGen\Structures\Tree.cs" />
     <Compile Include="Assets\Scripts\TerrainGen\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\UI\ClickableObject.cs" />
     <Compile Include="Assets\Scripts\UI\InfoOverlay.cs" />
