@@ -52,7 +52,7 @@ public class Chunk
 
         GenerateChunk();
         if (drawOnInit)
-            DrawChunk();
+            Draw();
     }
 
     public bool IsVoxelSolid(Vector3Int pos)
@@ -98,7 +98,7 @@ public class Chunk
             rotations.Add(pos, rotaion);
 
         blocks[pos.x, pos.y, pos.z] = (byte)type;
-        Update();
+        world.AddChunkChanged(this);
 
         var edge = IsOnEdgeOfChunk(pos);
         if (edge == Direction.North)
