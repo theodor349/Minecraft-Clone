@@ -6,6 +6,7 @@ This project is based on the Youtube tutorial from b3agz. The playlist can be fo
 
 What I've learned:
 -
+ - Git and git workflows
  - Organizing a bigger project
  - Procedual generation 
  - Textures and texture bleeding
