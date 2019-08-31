@@ -14,6 +14,7 @@ public class World : MonoBehaviour
 
     private Chunk[,] chunks = new Chunk[BlockData.WorldWidthInChunks, BlockData.WorldWidthInChunks];
     private Queue<IConstruction> constructions = new Queue<IConstruction>();
+    private Queue<Chunk> changedChunks = new Queue<Chunk>();
 
     private void Awake()
     {
@@ -54,6 +55,14 @@ public class World : MonoBehaviour
     private void Start()
     {
         GenerateWorld();
+    }
+
+    private void Update()
+    {
+        while(changedChunks.Count > 0)
+        {
+            changedChunks.Dequeue().Update();
+        }
     }
 
     private void GenerateWorld()
@@ -97,6 +106,12 @@ public class World : MonoBehaviour
 
         Vector2Int chunkCoord = GetChunkCoord(pos);
         chunks[chunkCoord.x, chunkCoord.y].EditBlock(GetBlockPosInChunk(pos), type, rotation);
+    }
+
+    public void AddChunkChanged(Chunk c)
+    {
+        if(!changedChunks.Contains(c))
+            changedChunks.Enqueue(c);
     }
 
     public void AddContruction(IConstruction construction)
