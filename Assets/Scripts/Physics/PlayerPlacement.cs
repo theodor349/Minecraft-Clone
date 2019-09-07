@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Toolbelt))]
 public class PlayerPlacement : MonoBehaviour
 {
     [SerializeField] private Transform camPos;
     [SerializeField] private float range;
-    [SerializeField] private Inventory inventory;
     [SerializeField] private Transform crackedBlock;
     [SerializeField] private Material[] crackedMaterials;
     [SerializeField] private GameObject InventoryObj;
 
+    private Toolbelt toolbelt;
     private int layermask = 1 << 8;
     private World world;
 
@@ -22,6 +23,7 @@ public class PlayerPlacement : MonoBehaviour
     {
         world = World.Instance;
         crackedMesh = crackedBlock.GetComponent<MeshRenderer>();
+        toolbelt = GetComponent<Toolbelt>();
     }
 
     private void Update()
@@ -40,10 +42,10 @@ public class PlayerPlacement : MonoBehaviour
     private void PlaceBlock()
     {
         Vector3Int pos = BlockPlacement();
-        if (inventory.GetSlectedItem() == null)
+        if (toolbelt.GetSlectedItem() == null)
             return;
 
-        var item = inventory.GetSlectedItem();
+        var item = toolbelt.GetSlectedItem();
 
         Direction rotation = Direction.Nothing;
         if (world.GetBlock((BlockType)item.BlockType).IsRotationSpecific)
@@ -87,7 +89,7 @@ public class PlayerPlacement : MonoBehaviour
         }
 
         world.EditBlock(pos, item.BlockType, rotation);
-        inventory.Take(1, inventory.SelectedSlot);
+        toolbelt.Take(1);
     }
 
     private void PunchBlock()

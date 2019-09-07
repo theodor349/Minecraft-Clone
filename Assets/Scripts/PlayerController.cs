@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private MyCollider col;
 
     [SerializeField]
-    private Inventory inventory;
+    private PlayerInventory inventory;
 
     private Vector3 velocity;
     private float yVelocity;
@@ -55,10 +55,10 @@ public class PlayerController : MonoBehaviour
         transform.Translate(velocity);
 
         if (Input.GetKeyDown(KeyCode.R))
-            if (inventory.PickUp(new Item(BlockType.Glass, 11)) == 0)
+            if (inventory.PutItem(new Item(BlockType.Glass, 11)) == 0)
                 Debug.Log("Nothing PickUp");
         if (Input.GetKeyDown(KeyCode.Q))
-            if (inventory.PickUp(new Item(BlockType.Grass, 65)) == 0)
+            if (inventory.PutItem(new Item(BlockType.Grass, 65)) == 0)
                 Debug.Log("Nothing PickUp");
     }
 
@@ -95,13 +95,11 @@ public class PlayerController : MonoBehaviour
 
     private void InputMouseButtons()
     {
-        if (inventory.InventoryUI.activeSelf)
+        if (inventory.inventoryGameobject.activeSelf)
             return;
 
         if (Input.GetMouseButtonDown(0))
             world.EditBlock(HighlightBlockPos, 0);
-        else if (Input.GetMouseButtonDown(1))
-            world.EditBlock(PlacementBlockPos, (inventory.GetSlectedItem().BlockType));
     }
 
     private void SetHighlightBlockPos()
