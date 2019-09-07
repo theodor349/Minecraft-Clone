@@ -21,6 +21,13 @@ public class Item
         }
     }
 
+    public int Accepts(Item item)
+    {
+        if (item.BlockType != BlockType)
+            return 0;
+        return Math.Min(item.stackSize, MaxStackSize - stackSize);
+    }
+
     // Just initialize with a normal block
     public Item(BlockType blockType, int amount)
     {

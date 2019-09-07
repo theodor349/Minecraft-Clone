@@ -14,7 +14,7 @@ public class Slot
             myItem = value;
             if (myItem != null)
                 myItem.RegistreItemChangedAction(SlotChanged);
-            SlotChanged(value);
+            SlotChanged(myItem);
         }
     }
 
@@ -26,8 +26,7 @@ public class Slot
 
     public void RemoveItem()
     {
-        myItem = null;
-        SlotChanged(myItem);
+        MyItem = null;
     }
 
     public void RegistreSlotChangedAction(Action<Item> callback)

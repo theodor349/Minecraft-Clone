@@ -5,7 +5,7 @@ public class InventorySlot : MonoBehaviour
 {
     public Image ItemImage;
     public Text ItemAmountText;
-    public Inventory PlayerInventory;
+    public IInventory PlayerInventory;
     public int Index;
 
     private InventoryCursor cursor;
@@ -18,16 +18,16 @@ public class InventorySlot : MonoBehaviour
     public void RightClick()
     {
         Item other = cursor.ReadItem();
-        Item item = PlayerInventory.ReadItem(Index);
+        Item item = PlayerInventory.Read(Index);
 
         if (other == null && item == null)
             return;
 
         if (other == null && item != null)
         {
-            int amount = Mathf.FloorToInt(PlayerInventory.ReadItem(Index).StackSize * 0.5f);
+            int amount = Mathf.FloorToInt(PlayerInventory.Read(Index).StackSize * 0.5f);
             if (amount == 0)
-                cursor.PutItem(PlayerInventory.RemoveItem(Index));
+                cursor.PutItem(PlayerInventory.Remove(Index));
             else
                 cursor.PutItem(PlayerInventory.Take(amount, Index));
 
@@ -43,32 +43,32 @@ public class InventorySlot : MonoBehaviour
 
     public void LeftClick()
     {
-        Item other = cursor.ReadItem();
-        Item item = PlayerInventory.ReadItem(Index);
+        Item c = cursor.ReadItem();
+        Item s = PlayerInventory.Read(Index);
 
-        if (other == null)
+        if (c == null)
         {
-            cursor.PutItem(PlayerInventory.RemoveItem(Index));
+            cursor.PutItem(PlayerInventory.Remove(Index));
             return;
         }
 
-        if (item == null)
+        if (s == null)
         {
             PlayerInventory.PutItem(cursor.GetItem(), Index);
             return;
         }
 
-        if (item.BlockType != other.BlockType)
+        if (s.BlockType != c.BlockType)
         {
-            cursor.PutItem(PlayerInventory.RemoveItem(Index));
-            PlayerInventory.PutItem(other, Index);
+            cursor.PutItem(PlayerInventory.Remove(Index));
+            PlayerInventory.PutItem(c, Index);
             return;
         }
 
-        int amount = PlayerInventory.Accepts(other, Index);
-        amount = Mathf.Min(amount, other.StackSize);
+        int amount = PlayerInventory.Accepts(c, Index);
+        amount = Mathf.Min(amount, c.StackSize);
 
-        if (amount == other.StackSize)
+        if (amount == c.StackSize)
         {
             PlayerInventory.PutItem(cursor.GetItem(), Index);
             return;
