@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Inventory\Slot.cs" />
      <Compile Include="Assets\Scripts\Inventory\Toolbelt.cs" />
      <Compile Include="Assets\Scripts\Physics\CollisionObject.cs" />
+     <Compile Include="Assets\Scripts\Physics\FallingBlock.cs" />
      <Compile Include="Assets\Scripts\Physics\MyCollider.cs" />
      <Compile Include="Assets\Scripts\Physics\PlayerPlacement.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />

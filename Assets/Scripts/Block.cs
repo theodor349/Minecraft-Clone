@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves, Furnace }
+public enum BlockType { Air, Bedrock, Dirt, Grass, Stone, Cobblestone, Planks, Log, Glass, Leaves, Furnace, Sand }
 
 public enum Direction { Nothing, North, South, West, East };
 
@@ -15,6 +15,7 @@ public class Block : ScriptableObject
     public bool IsSolid;
     public bool IsTransparent;
     public bool IsRotationSpecific; // Can only rotate around the up-axis
+    public bool UseGravity;
     public float Hardness;
     public byte MiningLevel;
     public string BreaksInto;

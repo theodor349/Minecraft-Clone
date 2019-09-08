@@ -13,8 +13,6 @@ public class Chunk
     private MeshCollider collider;
 
     private World world;
-
-    private Material mat;
     private Mesh mesh;
     private List<Vector3> verts = new List<Vector3>();
     private List<Vector2> uvs = new List<Vector2>();
@@ -38,6 +36,7 @@ public class Chunk
         obj.transform.position = chunkPos;
         obj.transform.SetParent(world.transform);
         obj.name = "Chunk " + chunkCoord.x + "_" + chunkCoord.y;
+        obj.tag = "Chunk";
 
         rendere = obj.AddComponent<MeshRenderer>();
         filter = obj.AddComponent<MeshFilter>();
@@ -93,12 +92,22 @@ public class Chunk
 
     public void EditBlock(Vector3Int pos, BlockType type, Direction rotaion)
     {
+        bool changeBlock = true;
+
         rotations.Remove(pos);
         if (rotaion != Direction.Nothing)
             rotations.Add(pos, rotaion);
 
-        blocks[pos.x, pos.y, pos.z] = (byte)type;
-        world.AddChunkChanged(this);
+        if (world.GetBlock(type).UseGravity)
+        {
+            changeBlock = ApplyGravity(pos, type, rotaion);
+        }
+
+        if (changeBlock)
+        {
+            blocks[pos.x, pos.y, pos.z] = (byte)type;
+            world.AddChunkChanged(this);
+        }
 
         var edge = IsOnEdgeOfChunk(pos);
         if (edge == Direction.North)
@@ -109,6 +118,29 @@ public class Chunk
             world.UpdateChunk(chunkCoord + new Vector2Int(-1, 0));
         else if (edge == Direction.East)
             world.UpdateChunk(chunkCoord + new Vector2Int(1, 0));
+    }
+
+    private bool ApplyGravity(Vector3Int pos, BlockType type, Direction rotation)
+    {
+        var block = GetBlockTypeAt(new Vector3Int(pos.x, pos.y - 1, pos.z));
+        if (block != BlockType.Air)
+            return true;
+
+        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var rb = go.AddComponent<Rigidbody>();
+        rb.constraints =
+            RigidbodyConstraints.FreezePositionX |
+            RigidbodyConstraints.FreezePositionZ |
+            RigidbodyConstraints.FreezeRotation;
+        go.AddComponent<BoxCollider>();
+        go.transform.SetParent(obj.transform);
+        go.transform.position = pos + new Vector3(0.5f, 0, 0.5f) + chunkPos;
+        var fall = go.AddComponent<FallingBlock>();
+        fall.Block = world.GetBlock(type);
+        fall.Type = type;
+        fall.Rotation = rotation;
+
+        return false;
     }
 
     public void AddCollision()

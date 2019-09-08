@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15014b64a085f1648bf7191510ed74ac, type: 3}
-  m_Name: Stone
+  m_Name: Sand
   m_EditorClassIdentifier: 
-  Name: Stone
-  Icon: {fileID: 317711084924465178, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
+  Name: Sand
+  Icon: {fileID: 2167659861789059491, guid: 39b22c40288d99e47824c0a86d26a530, type: 3}
   IsSolid: 1
   IsTransparent: 0
   IsRotationSpecific: 0
-  UseGravity: 0
-  Hardness: 2
-  MiningLevel: 2
+  UseGravity: 1
+  Hardness: 1
+  MiningLevel: 1
   BreaksInto: 
-  Back: 0
-  Front: 0
-  Top: 0
-  Buttom: 0
-  Left: 0
-  Right: 0
+  Back: 10
+  Front: 10
+  Top: 10
+  Buttom: 10
+  Left: 10
+  Right: 10

@@ -31,6 +31,9 @@ public class PlayerInventory : MonoBehaviour, IInventory
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+            PutItem(new Item(BlockType.Sand, 32));
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             inventoryGameobject.SetActive(!inventoryGameobject.activeSelf);
